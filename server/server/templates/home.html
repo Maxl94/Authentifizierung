@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+
+{% block stylesheets %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+{% block header %}Home{% endblock %}
+
+
+{% block pageContent %}
+<div class="mdl-grid"></div>
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--2dp my-card-wide">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text mdl-card--border">Alarm Mod</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-card--border">
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+                    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
+                    sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <p>
+                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
+                        Level 1 - Unarmed
+                    </a>
+                </p>
+                <p>
+                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
+                        Level 2 - Locked
+                    </a> 
+                </p>
+                <p>
+                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
+                        Level 3 - Armed Movementdetection
+                    </a>    
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

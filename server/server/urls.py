@@ -20,4 +20,9 @@ from .views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^home/$', HomeView.as_view()),
+    url(r'login/$', LoginView.as_view()),
+    url(r'settings/$', SettingsView.as_view()),
+    url(r'settings/create/$', CreateModeView.as_view()),
+    url(r'settings/update/(?P<id>\d+)/$', UpdateModeView.as_view()),
+    url(r'settings/delete/(?P<id>\d+)/$', DeleteModeView.as_view()),
 ]

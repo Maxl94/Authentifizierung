@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+
+{% block stylesheets %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+{% block header %}Home{% endblock %}
+
+
+{% block pageContent %}
+<div class="mdl-grid"></div>
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--2dp my-card-wide">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Your mode  s</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-card--border">
+                Update, create or delete your alarm mods.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <div class="demo-list-action mdl-list">
+                    {% for item in modes %}
+                    <div class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">
+                            <span>{{ item.name }}</span>
+                            <!--<span class="mdl-list__item-sub-title">{{ item.description }}</span>-->
+                        </span>
+                        <a class="mdl-list__item-secondary-action" href="/settings/update/{{item.id}}"><i class="material-icons">edit</i></a>
+                        <a class="mdl-list__item-secondary-action" href="/settings/delete/{{item.id}}"><i class="material-icons">delete</i></a>
+                    </div>
+                    {% endfor %}  
+                </div>
+                <div class="mdl-card__menu">
+                    <a class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" href="/settings/create/">
+                        <i class="material-icons">add_circle</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

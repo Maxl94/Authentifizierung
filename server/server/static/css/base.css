@@ -5,3 +5,19 @@
 .my-card-wide {
     width: 100%;
 }
+
+.table-stretch {
+    width: 100%
+}
+
+.table-stretch .mdl-switch__label {
+    left: 0px;
+}
+
+.table-stretch .td-align-right {
+    text-align: right
+}
+
+.table-stretch .mdl-switch {
+    width: fit-content;
+}

@@ -25,7 +25,7 @@ SECRET_KEY = 'y3k79wyer&f3gibv%^dka+v@6(=-k_zahq(tafqff!-x@ump%a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.43.190']
 
 
 # Application definition
@@ -134,3 +134,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'server/static')
 ]
+
+# Login
+LOGIN_URL = '/login'

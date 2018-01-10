@@ -7,15 +7,16 @@ from django.contrib.auth import authenticate, login
 from .models import Setting
 
 
+ACTIVE_MODE = 1
 
-
+@method_decorator(login_required, name='dispatch')
 class HomeView(TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['modes'] = Setting.objects.all().order_by('id')
-        print(context['modes'])
+        context['active_mode'] = ACTIVE_MODE
         return context
 
 class LoginView(View):
@@ -36,6 +37,7 @@ class LoginView(View):
             }
             return render(request, 'login.html', context)
 
+@method_decorator(login_required, name='dispatch')
 class SettingsView(TemplateView):
     template_name = 'settings.html'
 
@@ -45,14 +47,14 @@ class SettingsView(TemplateView):
         print(context['modes'])
         return context
 
-
+@method_decorator(login_required, name='dispatch')
 class CreateModeView(CreateView):
     model = Setting
     success_url = '/settings'
     template_name = 'create_mode.html'
     fields = '__all__'
 
-
+@method_decorator(login_required, name='dispatch')
 class UpdateModeView(UpdateView):
     model = Setting
     success_url = '/settings'
@@ -63,7 +65,7 @@ class UpdateModeView(UpdateView):
         obj = Setting.objects.get(id=self.kwargs['id'])
         return obj
 
-
+@method_decorator(login_required, name='dispatch')
 class DeleteModeView(DeleteView):
     model = Setting
     success_url = '/settings'
@@ -72,3 +74,20 @@ class DeleteModeView(DeleteView):
     def get_object(self, queryset=None):
         obj = Setting.objects.get(id=self.kwargs['id'])
         return obj
+
+@method_decorator(login_required, name='dispatch')
+class SetModeView(View):
+    def get(self, request, **kwargs):
+        obj = Setting.objects.get(id=self.kwargs['id'])
+        # Rufe Michis Zeug auf
+        print('Michis zeug aufrufen')
+        global ACTIVE_MODE
+        ACTIVE_MODE = obj.id
+        print('Active mode = {0}'.format(ACTIVE_MODE))
+        return redirect('/home')
+
+@method_decorator(login_required, name='dispatch')
+class AlarmOffView(View):
+    def get(self, request):
+        print('Alarm aus')
+        return redirect('/home')

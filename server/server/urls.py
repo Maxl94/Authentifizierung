@@ -18,6 +18,7 @@ from django.contrib import admin
 from .views import *
 
 urlpatterns = [
+    url(r'^$', LoginView.as_view()),    
     url(r'^admin/', admin.site.urls),
     url(r'^home/$', HomeView.as_view()),
     url(r'login/$', LoginView.as_view()),
@@ -25,4 +26,6 @@ urlpatterns = [
     url(r'settings/create/$', CreateModeView.as_view()),
     url(r'settings/update/(?P<id>\d+)/$', UpdateModeView.as_view()),
     url(r'settings/delete/(?P<id>\d+)/$', DeleteModeView.as_view()),
+    url(r'set_mode/(?P<id>\d+)/$', SetModeView.as_view()),
+    url(r'alarm_off/$', AlarmOffView.as_view()),
 ]

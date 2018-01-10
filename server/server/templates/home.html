@@ -13,7 +13,12 @@
 
 {% block pageContent %}
 <div class="mdl-grid"></div>
-    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
+        <form action="/alarm_off" method="GET">
+            <input type="submit" class="mdl-button mdl-js-button mdl-button--raised btn-full-width" value="Switch alarm off"/>
+        </form>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--2dp my-card-wide">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text mdl-card--border">Alarm Mod</h2>
@@ -24,21 +29,17 @@
                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
             </div>
             <div class="mdl-card__actions mdl-card--border">
+                {% for item in modes %}
                 <p>
-                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
-                        Level 1 - Unarmed
-                    </a>
+                    <form action="/set_mode/{{ item.id }}" method="GET">
+                        {% if item.id == active_mode %}
+                            <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent btn-full-width" value="{{ item.name }}"/>                        
+                        {% else %}
+                            <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width" value="{{ item.name }}"/>
+                        {% endif %}
+                    </form>
                 </p>
-                <p>
-                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
-                        Level 2 - Locked
-                    </a> 
-                </p>
-                <p>
-                    <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-full-width">
-                        Level 3 - Armed Movementdetection
-                    </a>    
-                </p>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -14,13 +14,6 @@ def TimerReset(*args, **kwargs):
 
 
 class _TimerReset(threading.Thread):
-    """Call a function after a specified number of seconds:
-    t = TimerReset(30.0, f, args=[], kwargs={})
-    t.start() - to start the timer
-    t.reset() - to reset the timer
-    t.cancel() # stop the timer's action if it's still waiting
-    """
-
     def __init__(self, interval, function, args=[], kwargs={}):
         threading.Thread.__init__(self)
         self.interval = interval
@@ -31,30 +24,22 @@ class _TimerReset(threading.Thread):
         self.resetted = True
 
     def cancel(self):
-        """Stop the timer if it hasn't finished yet"""
         self.finished.set()
 
     def run(self):
-        #~ print("Time: %s - timer running..." % time.asctime())
-
         while self.resetted:
-            #~ print("Time: %s - timer waiting for timeout in %.2f..." % (time.asctime(), self.interval))
             self.resetted = False
             self.finished.wait(self.interval)
 
         if not self.finished.isSet():
             self.function(*self.args, **self.kwargs)
         self.finished.set()
-        #~ print("Time: %s - timer finished!" % time.asctime())
 
     def reset(self, interval=None):
         """ Reset the timer """
 
         if interval:
-            #~ print("Time: %s - timer resetting to %.2f..." % (time.asctime(), interval))
             self.interval = interval
-        #~ else:
-            #~ print("Time: %s - timer resetting..." % time.asctime())
 
         self.resetted = True
         self.finished.set()
@@ -65,7 +50,6 @@ class gps_uart(threading.Thread):
     gps_store = None
     timer = None
     timer_interval = 10
-    checksum_error_last_h = 0
 
     def clear_gps_store(self):
         self.data_lock.acquire(blocking=True, timeout=-1)
@@ -80,13 +64,11 @@ class gps_uart(threading.Thread):
         self.clear_gps_store()
         self.timer.reset()
 
-    def run(self, port="/dev/ttyUSB0", baud=9600):
-        global run_state
-        run_state = True
+    def run(self, port="/dev/ttyAMA0", baud=9600):
         com = None
         reader = pynmea2.NMEAStreamReader(errors='ignore')
 
-        while run_state:
+        while self.run_event.is_set():
             if com is None:
                 try:
                     com = serial.Serial(port, baudrate=baud, timeout=5.0)
@@ -94,8 +76,12 @@ class gps_uart(threading.Thread):
                     print('could not connect to %s, trying again in 5 sec' % port)
                     time.sleep(5.0)
                     continue
-
-            data = com.read(16)
+            try:
+                data = com.read(16)
+            except serial.SerialException:
+                print('Can not read from %s, trying again in 1 sec' % port)
+                time.sleep(1.0)
+                continue
             try:
                 for msg in reader.next(data.decode('ascii', errors='ignore')):
                     if msg.sentence_type == 'GGA':
@@ -111,7 +97,6 @@ class gps_uart(threading.Thread):
                         else:
                             self.clear_gps_store()
             except pynmea2.ChecksumError:
-                checksum_error_last_h = checksum_error_last_h + 1
                 continue
     def get_data(self):
         self.data_lock.acquire(blocking=True, timeout=100)
@@ -120,14 +105,22 @@ class gps_uart(threading.Thread):
         return t
     def __init__(self):
         threading.Thread.__init__(self)
+        self.run_event = threading.Event()
+        self.run_event.set()
         self.gps_store = namedtuple("GPSData", "utc_time long lat altitude nr_sat")
         self.clear_gps_store()
         self.timer = TimerReset(self.timer_interval, self.timeout_msg)
         self.timer.start()
+    def close(self):
+        self.run_event.clear()
 
 if __name__ == "__main__":
-    thread = gps_uart()
-    thread.start()
-    while True:
-        print("Akt. Altitude: " + thread.get_data().altitude)
-        time.sleep(10)
+    gps_uart = gps_uart()
+    gps_uart.start()
+    try:
+        while gps_uart.is_alive():
+            print("Akt. Altitude: " + gps_uart.get_data().altitude)
+            time.sleep(10)
+    except KeyboardInterrupt:
+        gps_uart.close()
+        gps_uart.join()

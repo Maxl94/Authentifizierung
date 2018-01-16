@@ -13,3 +13,13 @@ class Setting(models.Model):
 
     def __str__(self):
         return self.name
+
+    def debug(self):
+        print('Debugging:')
+        print('is_locked: {0}'.format(self.is_locked))
+        print('gps_is_active: {0}'.format(self.gps_is_active))
+        print('light_sensor_is_active: {0}'.format(self.light_sensor_is_active))
+        print('ir_sensor_is_active: {0}'.format(self.ir_sensor_is_active))
+        print('gyro_sensor_is_active: {0}'.format(self.gyro_sensor_is_active))
+        print('sound_alarm_is_active: {0}'.format(self.sound_alarm_is_active))
+        print('alarm_duration: {0}'.format(self.alarm_duration))

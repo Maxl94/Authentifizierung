@@ -1,6 +1,7 @@
 from threading import Thread
 from .alarm import Alarm
 from .hw import bno
+from .hw import ldr_modul
 import time
 
 
@@ -13,6 +14,7 @@ class Control(Thread):
         self.config = config
         self.alarm = Alarm()
         self.gyro = bno.Gyro()
+        self.light = ldr_modul.Ldr()
 
         self.start_sensors()
         self.start()
@@ -27,7 +29,6 @@ class Control(Thread):
     def check_sensors(self):
         while True:
             print("checking active sensors")
-            print("gyro is active: ", self.config.gyro_sensor_is_active)
             self.config.debug()
             if self.config.sound_alarm_is_active:
                 if self.config.gyro_sensor_is_active:
@@ -48,7 +49,7 @@ class Control(Thread):
         print("starting sensors")
         self.gyro.start()
         # ir
-        # light
+        self.light.start()
 
     # ----- alarm methods -----
     # methods to start and stop an alarm sound
@@ -64,7 +65,7 @@ class Control(Thread):
     def check_sensor_gyro(self):
         print("checking sensor: gyro")
         if self.gyro.was_moved():
-            print("backpack moved, starting alarm")
+            print("backpack moved: starting alarm")
             self.start_alarm()
         else:
             print("backpack was not moved")
@@ -75,4 +76,8 @@ class Control(Thread):
 
     def check_sensor_light(self):
         print("checking sensor: light")
-        # TODO get boolean from light if alarm is required
+        if self.light.get_pin():
+            print("light change detected: starting alarm")
+            self.start_alarm()
+        else:
+            print("no light changes detected")

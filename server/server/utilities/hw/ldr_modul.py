@@ -9,13 +9,13 @@ LDR_CH = 4
 BOUNCE_MS = 1
 class Ldr():
     def _ldr_callback_toogle(self, channel):
-        self.state = 0x01
+        self.state = True
 
     def _addEvent(self, direction):
         GPIO.add_event_detect(LDR_CH, direction, callback=self._ldr_callback_toogle, bouncetime=BOUNCE_MS)
 
     def __init__(self):
-        self.state = -1
+        self.state = False
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(LDR_CH, GPIO.IN)
         GPIO.setup(LED_CH, GPIO.OUT)
@@ -23,11 +23,12 @@ class Ldr():
         self._addEvent(GPIO.RISING)
     def close(self):
         GPIO.remove_event_detect(LDR_CH)
+        self.state = False
         GPIO.cleanup()
 
     def get_pin(self):
         tmp = self.state
-        self.state = 0;
+        self.state = False;
         return tmp
 
 

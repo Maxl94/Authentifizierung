@@ -5,10 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from .models import Setting
-from .utilities.control import Control
+from .wsgi import CONTROLLER
 
-ACTIVE_MODE = 9
-CONTROLLER = ''
+
 
 @method_decorator(login_required, name='dispatch')
 class HomeView(TemplateView):
@@ -31,9 +30,6 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            setting = Setting.objects.get(id=ACTIVE_MODE)
-            global CONTROLLER
-            CONTROLLER = Control(setting)
             return redirect('/home')
         else:
             context = {

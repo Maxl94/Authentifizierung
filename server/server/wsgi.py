@@ -10,6 +10,11 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from .utilities.control import Control
+from .models import Setting
+
+setting = Setting.objects.get(id=1)
+CONTROLLER = Control(setting)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
 

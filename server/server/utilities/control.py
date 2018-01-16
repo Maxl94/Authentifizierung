@@ -6,7 +6,6 @@ from .hw import ir_modul
 from .hw import motion_det
 import time
 
-
 class Control(Thread):
 
     def __init__(self, config):
@@ -57,8 +56,7 @@ class Control(Thread):
     def start_sensors(self):
         print("starting sensors")
         self.gyro.start()
-        if  self.ir.start() is not None:
-            self.ir.start()
+        ir_modul.initIRPack()
         self.motion.start()
 
     # ----- alarm methods -----
@@ -82,7 +80,7 @@ class Control(Thread):
 
     def check_sensor_ir(self):
         print("checking sensor: ir")
-        print("Motion filtered data percent value: " + self.motion.get_filtered_data_percent())
+        print("Motion filtered data percent value: {}".format(self.motion.get_filtered_data_percent()))
         if self.motion.get_filtered_data_percent() > self.ir_threshold:
             print("temperature change detected: alarm started")
             self.start_alarm()

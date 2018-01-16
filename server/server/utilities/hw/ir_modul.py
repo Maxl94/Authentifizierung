@@ -376,17 +376,10 @@ class Handler(BaseRequestHandler):
             socket.sendto(bytearray(reply, encoding='ascii'), self.client_address)
 
 
-if __name__ == "__main__":
+def initIRPack():
+    global i2c_thread
     i2c_thread = IrI2c()
-    i2c_thread.start()
+    if i2c_thread.start() is not None:
+        i2c_thread.start()
     server = UDPServerThread()
     server.start()
-    try:
-        while i2c_thread.is_alive():
-            sleep(0.1)
-
-    except KeyboardInterrupt:
-        i2c_thread.close()
-        server.shutdown()
-        i2c_thread.join()
-        server.join()

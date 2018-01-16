@@ -8,7 +8,7 @@ from time import sleep
 
 from pyparsing import col
 
-UDP_IP = "192.168.2.57"
+UDP_IP = "127.0.0.1"
 UDP_PORT = 55555
 
 
@@ -19,13 +19,13 @@ class MotionDetection(threading.Thread):
 
     def run(self):
         while self.run_event.is_set():
-            k = cv2.waitKey(50) & 0xff
+            #k = cv2.waitKey(50) & 0xff
             self.sock.sendto(b'THERMAL_REQ', (UDP_IP, UDP_PORT))
             udp = self.sock.recvfrom(2048)
             udp_data = udp[0]
             if udp_data.startswith(b'THERMAL_DATA'):
                 udp_data = self.remove_prefix(udp_data, b'THERMAL_DATA\n')
-                json_data = json.loads(udp_data)
+                json_data = json.loads(udp_data.decode('utf-8'))
                 if 'data' in json_data and 'ambient' in json_data:
                     data = np.asarray(json_data["data"])
                     data = data.astype(np.float)
@@ -45,8 +45,8 @@ class MotionDetection(threading.Thread):
                         learning_rate = 0
                     self.fgmask = self.fgbg.apply(data, self.fgmask, learning_rate)
                     #cv2.imshow('Background removed', self.fgmask)
-            if k == 27:
-                break
+            #if k == 27:
+            #    break
 
     def close(self):
         self.out.release()
@@ -61,6 +61,7 @@ class MotionDetection(threading.Thread):
         self.out = cv2.VideoWriter('out.avi', self.fourcc, 20.0, (640, 160))
         self.run_event = threading.Event()
         self.run_event.set()
+        self.fgmask = 0
 
     def get_filtered_data_percent(self):
         return np.mean(self.fgmask)

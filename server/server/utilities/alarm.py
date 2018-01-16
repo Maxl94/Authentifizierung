@@ -7,7 +7,7 @@ class Alarm:
     # sound by soundbible.com http://soundbible.com/1937-Tornado-Siren-II.html
     mixer = pygame.mixer
     is_playing = False
-    sound_file_path = "Sirene.wav"
+    sound_file_path = "/home/pi/Authentifzierung/server/server/utilities/Sirene.wav"
 
     def start_alarm(self, duration):
         print("got alarm request")

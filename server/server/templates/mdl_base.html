@@ -15,4 +15,16 @@
 <body>
     {% block content %}{% endblock %}
 </body>
+<script>
+function toggle(id) {
+    console.log("id"+id);          
+    console.log("status"+document.querySelector('#' + id).MaterialSwitch.inputElement_.checked );
+    if (document.querySelector('#' + id).MaterialSwitch.inputElement_.checked === true) {
+        document.querySelector('#' + id).MaterialSwitch.off();
+    } else {
+        document.querySelector('#' + id).MaterialSwitch.on();
+    }
+    console.log("status"+document.querySelector('#' + id).MaterialSwitch.inputElement_.checked );
+}    
+</script>
 </html>

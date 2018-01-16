@@ -28,6 +28,7 @@ class Control(Thread):
         while True:
             print("checking active sensors")
             print("gyro is active: ", self.config.gyro_sensor_is_active)
+            self.config.debug()
             if self.config.sound_alarm_is_active:
                 if self.config.gyro_sensor_is_active:
                     self.check_sensor_gyro()

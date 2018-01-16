@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from .models import Setting
 from .utilities.control import Control
 
-ACTIVE_MODE = 1
+ACTIVE_MODE = 9
 CONTROLLER = ''
 
 @method_decorator(login_required, name='dispatch')

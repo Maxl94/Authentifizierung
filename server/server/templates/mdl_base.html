@@ -15,18 +15,4 @@
 <body>
     {% block content %}{% endblock %}
 </body>
-<script>
-function toggle(id) {
-    item = document.querySelector('#' + id)
-    console.log(document.querySelector('#' + id));     
-    console.log("id"+id);      
-    console.log("status"+document.querySelector('#' + id).checked);
-    if (document.querySelector('#' + id).checked === true) {
-        document.querySelector('#' + id).checked = false;
-    } else {
-        document.querySelector('#' + id).checked = true;
-    }
-    console.log("status"+document.querySelector('#' + id).checked);
-}    
-</script>
 </html>

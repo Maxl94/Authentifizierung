@@ -36,61 +36,61 @@
                     <table class="table-stretch">
                         <tbody>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.is_locked.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.is_locked.label }}</span></td>
                                 <td class="td-align-right">
-                                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.is_locked.id_for_label }}" 
-                                    name="{{ form.is_locked.html_name }}" onclick="toggle('{{ form.is_locked.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.is_locked.id_for_label }}" class="mdl-switch__input"  
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.is_locked.id_for_label }}" 
+                                    name="{{ form.is_locked.html_name }}" onmousedown="toggle('{{ form.is_locked.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.is_locked.id_for_label }}" class="mdl-checkbox__input"  
                                         {% if form.is_locked.value == True %} checked {% endif %}>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.gps_is_active.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.gps_is_active.label }}</span></td>
                                 <td class="td-align-right">
-                                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.gps_is_active.id_for_label }}" 
-                                        name="{{ form.gps_is_active.html_name }}" onclick="toggle('{{ form.gps_is_active.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.gps_is_active.id_for_label }}" class="mdl-switch__input" 
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.gps_is_active.id_for_label }}" 
+                                        name="{{ form.gps_is_active.html_name }}" onmousedown="toggle('{{ form.gps_is_active.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.gps_is_active.id_for_label }}" class="mdl-checkbox__input" 
                                         {% if form.gps_is_active.value == True %} checked {% endif %}>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.light_sensor_is_active.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.light_sensor_is_active.label }}</span></td>
                                 <td class="td-align-right">
-                                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.light_sensor_is_active.id_for_label }}" 
-                                        name="{{ form.light_sensor_is_active.html_name }}" onclick="toggle('{{ form.light_sensor_is_active.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.light_sensor_is_active.id_for_label }}" class="mdl-switch__input" 
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.light_sensor_is_active.id_for_label }}" 
+                                        name="{{ form.light_sensor_is_active.html_name }}" onmousedown="toggle('{{ form.light_sensor_is_active.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.light_sensor_is_active.id_for_label }}" class="mdl-checkbox__input" 
                                         {% if form.light_sensor_is_active.value == True %} checked {% endif %}>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.ir_sensor_is_active.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.ir_sensor_is_active.label }}</span></td>
                                 <td class="td-align-right">
-                                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.ir_sensor_is_active.id_for_label }}" 
-                                        name="{{ form.ir_sensor_is_active.html_name }}" onclick="toggle('{{ form.ir_sensor_is_active.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.ir_sensor_is_active.id_for_label }}" class="mdl-switch__input" 
+                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.ir_sensor_is_active.id_for_label }}" 
+                                        name="{{ form.ir_sensor_is_active.html_name }}" onmousedown="toggle('{{ form.ir_sensor_is_active.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.ir_sensor_is_active.id_for_label }}" class="mdl-checkbox__input" 
                                         {% if form.ir_sensor_is_active.value == True %} checked {% endif %}>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.gyro_sensor_is_active.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.gyro_sensor_is_active.label }}</span></td>
                                 <td class="td-align-right">
-                                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.gyro_sensor_is_active.id_for_label }}" 
-                                        name="{{ form.gyro_sensor_is_active.html_name }}" onclick="toggle('{{ form.gyro_sensor_is_active.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.gyro_sensor_is_active.id_for_label }}" class="mdl-switch__input" 
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.gyro_sensor_is_active.id_for_label }}" 
+                                        name="{{ form.gyro_sensor_is_active.html_name }}" onmousedown="toggle('{{ form.gyro_sensor_is_active.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.gyro_sensor_is_active.id_for_label }}" class="mdl-checkbox__input" 
                                         {% if form.gyro_sensor_is_active.value == True %} checked {% endif %}>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="mdl-switch__label">{{ form.sound_alarm_is_active.label }}</span></td>
+                                <td><span class="mdl-checkbox__label">{{ form.sound_alarm_is_active.label }}</span></td>
                                 <td class="td-align-right">
-                                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ form.sound_alarm_is_active.id_for_label }}" 
-                                        name="{{ form.sound_alarm_is_active.html_name }}" onclick="toggle('{{ form.sound_alarm_is_active.id_for_label }}')">
-                                        <input type="checkbox" id="{{ form.sound_alarm_is_active.id_for_label }}" class="mdl-switch__input" 
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.sound_alarm_is_active.id_for_label }}" 
+                                        name="{{ form.sound_alarm_is_active.html_name }}" onmousedown="toggle('{{ form.sound_alarm_is_active.id_for_label }}')">
+                                        <input type="checkbox" id="{{ form.sound_alarm_is_active.id_for_label }}" class="mdl-checkbox__input" 
                                         {% if form.sound_alarm_is_active.value == True %} checked {% endif %}>
                                     </label>
                                 </td>

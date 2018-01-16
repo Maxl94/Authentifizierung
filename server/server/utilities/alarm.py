@@ -2,7 +2,7 @@ import pygame
 import time
 
 
-class Alarm:
+class Alarm():
 
     # sound by soundbible.com http://soundbible.com/1937-Tornado-Siren-II.html
     mixer = pygame.mixer
@@ -17,17 +17,13 @@ class Alarm:
 
         # play sound
         print("start alarm")
-        self.mixer.play()
-        time.sleep(duration)
-
-        # stop alarm
-        print("stopped alarm")
-        self.mixer.stop()
+        self.mixer.play(maxtime=duration*1000)
 
     def stop_alarm(self):
         print("got stop alarm request")
         if self.is_playing:
             self.mixer.stop()
+            self.is_playing = False
             print("stopped alarm")
         else:
             print("no active alarm")

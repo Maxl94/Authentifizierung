@@ -20,7 +20,7 @@ class Control(Thread):
         self.alarm = Alarm()
         self.gyro = bno.Gyro()
         self.ir = ir_modul.IrI2c()
-        self.motion = motion_det()
+        self.motion = motion_det.MotionDetection()
         # TODO fix light sensor
         # self.light = ldr_modul.Ldr()
 

@@ -21,3 +21,7 @@
 .table-stretch .mdl-switch {
     width: fit-content;
 }
+
+table th {
+    text-align: right
+}

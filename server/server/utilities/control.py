@@ -49,7 +49,6 @@ class Control(Thread):
         print("starting sensors")
         self.gyro.start()
         # ir
-        self.light.start()
 
     # ----- alarm methods -----
     # methods to start and stop an alarm sound

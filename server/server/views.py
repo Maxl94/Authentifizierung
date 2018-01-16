@@ -96,6 +96,8 @@ class SetModeView(View):
 class AlarmOffView(View):
     def get(self, request):
         print('Alarm aus')
+        global CONTROLLER
+        CONTROLLER.stop_alarm()
         return redirect('/home')
 
 @method_decorator(login_required, name='dispatch')

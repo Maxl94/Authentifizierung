@@ -47,12 +47,13 @@ class Gyro(threading.Thread):
 
         return moved
 
-if __name__ == "__main__":
-	g = Gyro()
-	g.start()
 
-	time.sleep(5)
-	print("has moved: {}".format(g.was_moved()))
-	time.sleep(5)
-	print("has moved: {}".format(g.was_moved()))
+if __name__ == "__main__":
+    g = Gyro()
+    g.start()
+
+    time.sleep(5)
+    print("has moved: {}".format(g.was_moved()))
+    time.sleep(5)
+    print("has moved: {}".format(g.was_moved()))
 

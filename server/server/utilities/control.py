@@ -28,13 +28,13 @@ class Control(Thread):
         while True:
             print("checking active sensors")
             print(self.config)
-            print(self.config.gyro_is_active)
+            print(self.config.gyro_sensor_is_active)
             if self.config.sound_alarm_is_active:
-                if self.config.gyro_is_active:
+                if self.config.gyro_sensor_is_active:
                     self.check_sensor_gyro()
-                if self.config.ir_is_active:
+                if self.config.ir_sensor_is_active:
                     self.check_sensor_ir()
-                if self.config.light_is_active:
+                if self.config.light_sensor_is_active:
                     self.check_sensor_light()
             time.sleep(self.sensor_timeout)
 

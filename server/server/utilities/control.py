@@ -1,5 +1,6 @@
 from threading import Thread
 from .alarm import Alarm
+from .hw import bno
 import time
 
 
@@ -11,6 +12,9 @@ class Control(Thread):
         self.sensor_timeout = 3
         self.config = config
         self.alarm = Alarm()
+        self.gyro = bno.Gyro()
+
+        self.start_sensors()
         self.start()
         print("finished init")
 
@@ -23,12 +27,13 @@ class Control(Thread):
     def check_sensors(self):
         while True:
             print("checking active sensors")
+            print("gyro is active: ", self.config.gyro_sensor_is_active)
             if self.config.sound_alarm_is_active:
-                if self.config.gyro_is_active:
+                if self.config.gyro_sensor_is_active:
                     self.check_sensor_gyro()
-                if self.config.ir_is_active:
+                if self.config.ir_sensor_is_active:
                     self.check_sensor_ir()
-                if self.config.light_is_active:
+                if self.config.light_sensor_is_active:
                     self.check_sensor_light()
             time.sleep(self.sensor_timeout)
 
@@ -37,6 +42,12 @@ class Control(Thread):
         print("updating config")
         self.config = config
         print("update completed")
+
+    def start_sensors(self):
+        print("starting sensors")
+        self.gyro.start()
+        # ir
+        # light
 
     # ----- alarm methods -----
     # methods to start and stop an alarm sound
@@ -51,7 +62,11 @@ class Control(Thread):
     # ----- sensor methods -----
     def check_sensor_gyro(self):
         print("checking sensor: gyro")
-        # TODO get boolean from gyro if alarm is required
+        if self.gyro.was_moved():
+            print("backpack moved, starting alarm")
+            self.start_alarm()
+        else:
+            print("backpack was not moved")
 
     def check_sensor_ir(self):
         print("checking sensor: ir")

@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from .models import Setting
-
+from .utilities.control import Control
 
 ACTIVE_MODE = 1
+CONTROLLER = ''
 
 @method_decorator(login_required, name='dispatch')
 class HomeView(TemplateView):
@@ -30,6 +31,9 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            setting = Setting.objects.get(id=ACTIVE_MODE)
+            global CONTROLLER
+            CONTROLLER = Control(setting)
             return redirect('/home')
         else:
             context = {
@@ -80,9 +84,11 @@ class SetModeView(View):
     def get(self, request, **kwargs):
         obj = Setting.objects.get(id=self.kwargs['id'])
         # Rufe Michis Zeug auf
+        
         print('Michis zeug aufrufen')
-        global ACTIVE_MODE
+        global ACTIVE_MODE, CONTROLLER
         ACTIVE_MODE = obj.id
+        CONTROLLER.update_config(obj)
         print('Active mode = {0}'.format(ACTIVE_MODE))
         return redirect('/home')
 
@@ -91,3 +97,7 @@ class AlarmOffView(View):
     def get(self, request):
         print('Alarm aus')
         return redirect('/home')
+
+@method_decorator(login_required, name='dispatch')
+class VideoView(TemplateView):
+    template_name = "ir_sensor.html"

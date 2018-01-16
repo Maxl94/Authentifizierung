@@ -16,7 +16,7 @@
     <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--2dp my-card-wide">
             <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text mdl-card--border">Update Mode</h2>
+                <h2 class="mdl-card__title-text mdl-card--border">Create Mode</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-card--border">
                 <form method="POST" action="">
@@ -25,13 +25,13 @@
                         <input class="mdl-textfield__input" type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}">
                         <label class="mdl-textfield__label" for="{{ form.name.id_for_label }}">
                             {{ form.name.label }}</label>
-                        <span class="mdl-textfield__error">{{ form.name.errors }}</span>
+                        <span class="mdl-textfield__error" style="visibility: visible;">{{ form.name.errors }}</span>
                     </div>
                     <div class="mdl-textfield mdl-js-textfield">
                         <input class="mdl-textfield__input" type="text" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}">
                         <label class="mdl-textfield__label" for="{{ form.description.id_for_label }}">
                             {{ form.description.label }}</label>
-                        <span class="mdl-textfield__error">{{ from.description.errors }}</span>
+                        <span class="mdl-textfield__error" style="visibility: visible;">{{ from.description.errors }}</span>
                     </div>
                     <table class="table-stretch">
                         <tbody>
@@ -88,9 +88,9 @@
                     <div class="mdl-textfield mdl-js-textfield">
                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="{{ form.alarm_duration.id_for_label }}" 
                             name="{{ form.alarm_duration.html_name }}">
-                        <label class="mdl-textfield__label" for="{{ form.alarm_duration.id_for_label }}">{{ form.alarm_duration.label }} default: {{ form.alarm_duration.value}}s</label>
+                        <label class="mdl-textfield__label" for="{{ form.alarm_duration.id_for_label }}">{{ form.alarm_duration.label }}</label>
                         <span class="mdl-textfield__error">Input is not a number!</span>
-                        <span class="mdl-textfield__error">{{ from.description.errors }}</span>
+                        <span class="mdl-textfield__error" style="visibility: visible;">{{ from.alarm_duration.errors }}</span>
                     </div>
 
                     <input type="submit" value="Update" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"/>

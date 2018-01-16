@@ -1,5 +1,5 @@
 from threading import Thread
-from alarm import Alarm
+from .alarm import Alarm
 import time
 
 

@@ -13,12 +13,13 @@ class Control(Thread):
         self.config = config
         self.alarm = Alarm()
         self.gyro = bno.Gyro()
+
+        self.start_sensors()
         self.start()
         print("finished init")
 
     def run(self):
         print("Control Thread started")
-        self.start_sensors()
         self.check_sensors()
 
     # ----- general methods -----
@@ -26,6 +27,8 @@ class Control(Thread):
     def check_sensors(self):
         while True:
             print("checking active sensors")
+            print(self.config)
+            print(self.config.gyro_is_active)
             if self.config.sound_alarm_is_active:
                 if self.config.gyro_is_active:
                     self.check_sensor_gyro()
@@ -42,6 +45,7 @@ class Control(Thread):
         print("update completed")
 
     def start_sensors(self):
+        print("starting sensors")
         self.gyro.start()
         # ir
         # light

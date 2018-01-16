@@ -24,22 +24,19 @@ class Control(Thread):
         while True:
             print("checking active sensors")
             if self.config.sound_alarm_is_active:
-                if self.config.test_is_active:
-                    self.check_sensor_test()
                 if self.config.gyro_is_active:
                     self.check_sensor_gyro()
                 if self.config.ir_is_active:
                     self.check_sensor_ir()
                 if self.config.light_is_active:
                     self.check_sensor_light()
-                if self.config.temp_is_active:
-                    self.check_sensor_temp()
             time.sleep(self.sensor_timeout)
 
     # method to update config, config includes all active sensors and utility
     def update_config(self, config):
         print("updating config")
         self.config = config
+        print("update completed")
 
     # ----- alarm methods -----
     # methods to start and stop an alarm sound
@@ -63,12 +60,3 @@ class Control(Thread):
     def check_sensor_light(self):
         print("checking sensor: light")
         # TODO get boolean from light if alarm is required
-
-    def check_sensor_temp(self):
-        print("checking sensor: temp")
-        # TODO get boolean from temp if alarm is required
-
-    # ----- test methods -----
-    def check_sensor_test(self):
-        print("checking sensor: test")
-        self.start_alarm()

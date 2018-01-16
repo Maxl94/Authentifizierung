@@ -248,3 +248,6 @@ venv.bak/
 
 
 # End of https://www.gitignore.io/api/c,linux,django,python,intellij
+
+# vscode
+.vscode

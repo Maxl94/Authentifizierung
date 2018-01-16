@@ -2,6 +2,8 @@ from threading import Thread
 from .alarm import Alarm
 from .hw import bno
 from .hw import ldr_modul
+from .hw import ir_modul
+from .hw import motion_det
 import time
 
 
@@ -11,14 +13,20 @@ class Control(Thread):
         print("started init")
         super().__init__()
         self.sensor_timeout = 3
+        self.ir_threshold = 20
+
         self.config = config
+
         self.alarm = Alarm()
         self.gyro = bno.Gyro()
-        self.light = ldr_modul.Ldr()
+        self.ir = ir_modul.IrI2c()
+        self.motion = motion_det.MotionDetection()
+        # TODO fix light sensor
+        # self.light = ldr_modul.Ldr()
 
         self.start_sensors()
         self.start()
-        print("finished init")
+        print("finished init"   )
 
     def run(self):
         print("Control Thread started")
@@ -35,8 +43,9 @@ class Control(Thread):
                     self.check_sensor_gyro()
                 if self.config.ir_sensor_is_active:
                     self.check_sensor_ir()
-                if self.config.light_sensor_is_active:
-                    self.check_sensor_light()
+                # if self.config.light_sensor_is_active:
+                    # TODO fix light sensor
+                    # self.check_sensor_light()
             time.sleep(self.sensor_timeout)
 
     # method to update config, config includes all active sensors and utility
@@ -48,7 +57,9 @@ class Control(Thread):
     def start_sensors(self):
         print("starting sensors")
         self.gyro.start()
-        # ir
+        if  self.ir.start() is not None:
+            self.ir.start()
+        self.motion.start()
 
     # ----- alarm methods -----
     # methods to start and stop an alarm sound
@@ -71,7 +82,12 @@ class Control(Thread):
 
     def check_sensor_ir(self):
         print("checking sensor: ir")
-        # TODO get boolean from ir if alarm is required
+        print("Motion filtered data percent value: " + self.motion.get_filtered_data_percent())
+        if self.motion.get_filtered_data_percent() > self.ir_threshold:
+            print("temperature change detected: alarm started")
+            self.start_alarm()
+        else:
+            print("no significant temperature change detected")
 
     def check_sensor_light(self):
         print("checking sensor: light")

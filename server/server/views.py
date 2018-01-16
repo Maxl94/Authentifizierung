@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from .models import Setting
-from .wsgi import CONTROLLER
+from .wsgi import CONTROLLER, ACTIVE_MODE
 
 
 

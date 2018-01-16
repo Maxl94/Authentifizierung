@@ -13,7 +13,8 @@ from django.core.wsgi import get_wsgi_application
 from .utilities.control import Control
 from .models import Setting
 
-setting = Setting.objects.get(id=1)
+ACTIVE_MODE = 1
+setting = Setting.objects.get(id=ACTIVE_MODE)
 CONTROLLER = Control(setting)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")

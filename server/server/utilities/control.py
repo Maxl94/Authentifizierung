@@ -27,8 +27,7 @@ class Control(Thread):
     def check_sensors(self):
         while True:
             print("checking active sensors")
-            print(self.config)
-            print(self.config.gyro_sensor_is_active)
+            print("gyro is active: ", self.config.gyro_sensor_is_active)
             if self.config.sound_alarm_is_active:
                 if self.config.gyro_sensor_is_active:
                     self.check_sensor_gyro()

@@ -65,7 +65,7 @@ class Control(Thread):
         print("checking sensor: gyro")
         if self.gyro.was_moved():
             print("backpack moved, starting alarm")
-            self.stop_alarm()
+            self.start_alarm()
         else:
             print("backpack was not moved")
 

@@ -17,14 +17,16 @@
 </body>
 <script>
 function toggle(id) {
-    console.log("id"+id);          
-    console.log("status"+document.querySelector('#' + id).MaterialSwitch.inputElement_.checked );
-    if (document.querySelector('#' + id).MaterialSwitch.inputElement_.checked === true) {
-        document.querySelector('#' + id).MaterialSwitch.off();
+    item = document.querySelector('#' + id)
+    console.log(document.querySelector('#' + id));     
+    console.log("id"+id);      
+    console.log("status"+document.querySelector('#' + id).checked);
+    if (document.querySelector('#' + id).checked === true) {
+        document.querySelector('#' + id).checked = false;
     } else {
-        document.querySelector('#' + id).MaterialSwitch.on();
+        document.querySelector('#' + id).checked = true;
     }
-    console.log("status"+document.querySelector('#' + id).MaterialSwitch.inputElement_.checked );
+    console.log("status"+document.querySelector('#' + id).checked);
 }    
 </script>
 </html>

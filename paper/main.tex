@@ -136,17 +136,61 @@ Smartphone verschiedene Profile für verschiedene Situationen
 (Bsp.: Weniger Sensoren, wenn auf dem Rücken getragen)
 erstellen und aktivieren. Bei der vorliegenden Umsetzung handelt
 es sich nur um einen Prototypen der weder auf Kosten, noch auf
-Platz optimiert ist.
+Platzverbrauch optimiert ist.
 
-\section{Platform}
+\section{Plattform}
+
+
+\subsection{Hotspot}
+
+\subsection{Webapplikation}
 
 \section{Sensorik}
 
 \subsection{Thermosensor}
 
 \subsection{Beschleunigungssensor}
+Um detektieren zu können ob der Rucksack in Bewegung ist oder
+still steht wird ein Beschleunigungssensor verwendet. Dieser
+Sensor fertigt ein Akzelerogramm an. Das bedeutet, dass die
+Geschwindigkeitszu- und abnahme kontinuierlich überwacht wird.
+Dabei werden alle drei Raumachsen (X, Y u. Z) separat aufgezeichnet.
+Wenn der Rucksack nun ruckartig vom Boden aufgehoben wird, erfährt er
+eine Beschleunigung in Z-Richtung. Diese Abweichung vom
+Normalzustand kann in der Auswertesoftware detektiert werden
+und je nach Konfiguration zu einem Alarm führen. Dabei wird 
+eine einfache Schwellwertfilterung auf den Sensor angewendet.
+Um Bewegungen in alle Richtungen erkennen zu können werden natürlich
+auch die aderen Raumachsen mit ausgeweretet.
+
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\columnwidth]{fig/accel_z.png}
+  \caption{Akzelerogramm der Z-Achse beim Aufheben des Rucksacks}
+  \label{fig:accel_z}
+\end{figure}
+
+Abbildung \ref{fig:accel_z} zeigt ein Akzelerogramm der Z-Achse,
+das beim Aufheben des Rucksacks aufgezeichnet wurde. Der Peak (1)
+in positiver Y-Richtung zeigt die Beschleunigung des Rucksackes
+beim Aufheben an. Der Peak (2) in negativer Richtung zeigt das
+Abremsen des Rucksacks an wenn die Aufhebebewegung abgeschlossen
+ist. Der zu verwendende Schwellwert wurde in einer kleinen
+Versuchsreihe expirementell bestimmt. Ein Schwellwert von \textit{1}
+hat sich dabei als guter Wert herausgestellt. Dadurch kann
+Sensorrauschen von einer tatsächlichen Bewegung unterschieden
+werden. Der Erkennungsalgorithmus schlägt nur Alarm, wenn mehr
+wie drei konsekutive Messungen über dem Schwellwert liegen. Damit
+soll vermieden werden, dass Fehlmessungen einen Alarm auslösen.
+Bei der Umsetzung des Prototypen wurde der BNO055 \cite{Bosch:BNO055}
+von Bosch als Sensorsystem verwendet. Dieser wird im UART Modus
+betrieben und über einen USB-TTL Adapter an das RaspberryPi
+angebunden. Der Schritt über den USB Adapter ist nötig, da der
+interne UART bereits für den GPS Empfänger verwendet wird.
 
 \subsection{Lichtsensor}
+
+\subsection{GPS}
 
 \section{Aktoren}
 

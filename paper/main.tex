@@ -150,13 +150,32 @@ jede bliebige Hochsprache zur Implementierung der Software
 verwendet werden. Die Software wurde ausschließlich in Python
 umgesetzt und kann unter \cite{Github:Software} abgerufen werden.
 
-\subsection{Hotspot}
+\subsection{WiFi Hotspot}
+
+\begin{itemize} 
+  \item Schnittstelle zu Smartphone des Besitzers
+  \item Kurze Beschreibung der Konfiguration
+\end{itemize}
 
 \subsection{Webapplikation}
+
+\begin{itemize}
+  \item Welche Funktionen erfüllt diese?
+  \item Authentifizierung gegenüber dieser?
+  \item Techstack kurz umreißen
+\end{itemize}
 
 \section{Sensorik}
 
 \subsection{Thermosensor}
+
+\begin{itemize}
+  \item Welcher Sensor, was kann er?
+  \item Wozu? Welches Szenario?
+  \item Einbindung des Sensors, Platine
+  \item Auswertung mit OpenCV
+  \item Algorithmus zu Erkennung
+\end{itemize}
 
 \subsection{Beschleunigungssensor}
 Um detektieren zu können ob der Rucksack in Bewegung ist oder
@@ -199,22 +218,48 @@ interne UART bereits für den GPS Empfänger verwendet wird.
 
 \subsection{Lichtsensor}
 
+\begin{itemize}
+  \item Wozu? Welches Szenario?
+  \item Einbindung des Sensors
+\end{itemize}
+
 \subsection{GPS}
+
+\begin{itemize}
+  \item Konzept: Save Zones
+  \item Einbindung des Sensors
+\end{itemize}
 
 \section{Aktoren}
 
 \subsection{Elektronisches Schloss}
 Leider stand uns für unseren Prototypen kein elektronisches Schloss
 zur Verfügung, weshalb der Schlosszustand mittels einer LED simuliert
-wird. Nichts desto trotz gibt es bereits heute Vorhängeschlösser die
+wird. Nichts destotrotz gibt es bereits heute Vorhängeschlösser die
 sich via Bluetooth ver- und entriegeln lassen \cite{MasterLock:Bluetooth}.
 Es wäre durchaus denkbar so ein Schloss in die vorhandene Software
 zu integrieren. Die Bluetooth Schnittstelle ließe sich über einen
-Bluetooth USB Dongle am RaspbberyPi nachrüsten. 
+Bluetooth USB Dongle am RaspberryPi nachrüsten. 
 
 \subsection{Alarm}
 
-\section{Fazit}
+\begin{itemize}
+  \item warum akustischer Alarm?
+  \item Wie umgesetzt?  
+\end{itemize}
+
+\section{Fazit und Ausblick}
+Unser Prototyp zeigt, dass es durchaus möglich ist einen Rucksack zu
+konstruieren, der einem Taschendieb das Leben schwer macht. Die Versuche
+mit unvoreingenommenen Testpersonen haben durchweg positives Feedback
+ergeben. Für ein Serienprodukt wäre der vorhandene Aufbau allerdings
+nicht geeignet, da zuviel Transportvolumen von Elektronik und Sensorik
+eingenommen werden würde. Durch weiteres Design eigener Platinen und einem 
+Plattformwechsel sollte sich das aber leicht bewerkstelligen lassen.
+Das hätte auch zur Folge, dass der Rucksack energiesparender arbeiten
+würde und länger mit einer Akkufüllung auskommen würde, da das
+RaspberryPi doch einen recht hohen Stromverbrauch aufzeigt \cite{Heise:RpiPower}.
+
 
 \balance{}
 

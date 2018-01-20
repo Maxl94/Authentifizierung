@@ -253,3 +253,19 @@ venv.bak/
 
 # vscode
 .vscode
+
+# latex
+*.pdf
+*.aux
+*.log
+*.gz
+*.blg
+*.bbl
+*.lof
+*.lot
+*.out
+*.ptc
+*.toc
+*blx.bib
+*run.xml
+*.bcf    

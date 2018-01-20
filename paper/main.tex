@@ -1,0 +1,147 @@
+\documentclass{sigchi}
+
+%% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+\toappear{}
+%% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+\pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}  % to better equalize the last page
+\usepackage{graphics} % for EPS, load graphicx instead 
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+\usepackage{mathptmx}
+\usepackage[pdftex]{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{textcomp}
+% Some optional stuff you might like/need.
+\usepackage{microtype} % Improved Tracking and Kerning
+% \usepackage[all]{hypcap}  % Fixes bug in hyperref caption linking
+\usepackage{ccicons}  % Cite your images correctly!
+\usepackage[utf8]{inputenc} % for a UTF8 editor only
+\usepackage[ngerman]{babel}
+
+% If you want to use todo notes, marginpars etc. during creation of your draft document, you
+% have to enable the "chi_draft" option for the document class. To do this, change the very first
+% line to: "\documentclass[chi_draft]{sigchi}". You can then place todo notes by using the "\todo{...}"
+% command. Make sure to disable the draft option again before submitting your final document.
+\usepackage{todonotes}
+
+% Paper metadata (use plain text, for PDF inclusion and later
+% re-using, if desired).  Use \emtpyauthor when submitting for review
+% so you remain anonymous.
+\def\plaintitle{Lock-a-dos: Ein Rucksack mit Selbstschutz}
+\def\plainauthor{Alexander Schuhmann, Max ??????, Michael Stadler, Maximilian Pachl}
+\def\emptyauthor{}
+\def\plainkeywords{Rucksack; Diebstahl; Selbstüberwachung; Smartphone; Sensoren; Wearable}
+\def\plaingeneralterms{Dokumentation}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{
+    \def\UrlFont{\sf}
+  }{
+    \def\UrlFont{\small\bf\ttfamily}
+  }}
+\makeatother
+\urlstyle{leo}
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={\plaintitle},
+% Use \plainauthor for final version.
+%  pdfauthor={\plainauthor},
+  pdfauthor={\emptyauthor},
+  pdfkeywords={\plainkeywords},
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
+}
+
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
+
+% End of preamble. Here it comes the document.
+\begin{document}
+
+\title{\plaintitle}
+
+\numberofauthors{4}
+\author{%
+  \alignauthor{Alexander Schuhmann\\
+    \email{e-mail address}}\\
+  \alignauthor{Max ??????\\
+    \email{e-mail address}}\\
+  \alignauthor{Michael Stadler\\
+    \email{e-mail address}}\\
+  \alignauthor{Maximilian Pachl\\
+    \email{pachl@hm.edu}}\\
+}
+
+\maketitle
+
+\begin{abstract}
+  Aktualisiert---\today. Dieses Paper beschreibt die prototypische
+  Umsetzung eines Rucksacks, der sich selbst vor dem Zugriff Dritter
+  schützen kann. Dazu werden eine Reihe von Sensoren in den Rucksack
+  integriert um mögliche Einflüsse von Außen jederzeit erkennen zu
+  können. Ein Alarm sorgt dafür, dass der unbefugte Zugriff nicht
+  unbemerkt bleibt. Mithilfe eines Smartphones kann der Besitzer
+  die Selbstüberwachung des Rucksackes ein- und ausschalten.
+\end{abstract}
+
+\subsection{Schlagwörter}
+\plainkeywords
+
+\section{Einleitung}
+
+This format is to be used for submissions that are published in the
+conference proceedings. We wish to give this volume a consistent,
+high-quality appearance. We therefore ask that authors follow some
+simple guidelines. You should format your paper exactly like this
+document. The easiest way to do this is to replace the content with
+your own material.  This document describes how to prepare your
+submissions using \LaTeX.
+
+\section{Fazit}
+
+It is important that you write for the SIGCHI audience. Please read
+previous years' proceedings to understand the writing style and
+conventions that successful authors have used. It is particularly
+important that you state clearly what you have done, not merely what
+you plan to do, and explain how your work is different from previously
+published work, i.e., the unique contribution that your work makes to
+the field. Please consider what the reader will learn from your
+submission, and how they will find your work useful. If you write with
+these questions in mind, your work is more likely to be successful,
+both in being accepted into the conference, and in influencing the
+work of our field.
+
+\balance{}
+
+% REFERENCES FORMAT
+% References must be the same font size as other body text.
+\bibliographystyle{SIGCHI-Reference-Format}
+\bibliography{main}
+
+\end{document}

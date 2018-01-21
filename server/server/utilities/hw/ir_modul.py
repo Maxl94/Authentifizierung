@@ -180,6 +180,57 @@ class IrI2c(threading.Thread):
 
         self.ir_data = to.tolist()
 
+        config_reg = (int)((self.config[0] >> 4) & 0x03)
+        tak4 = pow((self.ta + 273.15), 4.0)
+        vir_cp_offset_compensated = (float)(self.vcp) - (self.acp + self.bcp * (self.ta - 25.0))
+        # Versuch das ganze mit einem Array in numpy zu realisieren
+
+        vir = self.ir_data_raw.astype(np.float32)
+        deltaalpha = np.zeros((16, 4), dtype=np.float32)
+        ai = np.zeros((16, 4), dtype=np.float32)
+        bi = np.zeros((16, 4), dtype=np.float32)
+
+        ta_m25 = self.ta - 25.0
+        # alpha_2 = self.deltaalpha[y][x]
+        # alpha = (self.alpha_1 + alpha_2) / pow(2, 3-config_reg)
+        deltaalpha += self.alpha_1
+        res_shift = pow(2, 3 - config_reg)
+        if (res_shift != 1):
+            deltaalpha = np.divide(deltaalpha, res_shift)
+
+        # alpha_compensated = (1.0 + self.KsTa * (self.ta - 25.0)) * -->> (alpha - self.TGC * self.alpha_cp)
+        deltaalpha -= self.TGC * self.alpha_cp
+        calc_helper = (1.0 + self.KsTa * ta_m25)
+        deltaalpha = np.multiply(deltaalpha, calc_helper)
+
+        # vir_offset_compensated = (float)(vir) - (self.ai[y][x] + self.bi[y][x] * (self.ta - 25.0))
+        bi = np.multiply(bi, ta_m25)
+        bi = np.add(bi, ai)
+        vir_offset_compensated = np.subtract(vir, bi)
+
+        # vir_tgc_compensated = vir_offset_compensated -  self.TGC * vir_cp_offset_compensated
+        # vir_compensated = vir_tgc_compensated / self.epsilon
+        calc_helper = self.TGC * vir_cp_offset_compensated
+        vir_tgc_compensated = np.subtract(vir_offset_compensated, calc_helper)
+        vir_compensated = np.divide(vir_tgc_compensated, self.epsilon)
+
+        # sx = self.ks4 * pow(pow(alpha_compensated, 3.0) * vir_compensated + pow(alpha_compensated, 4.0) * tak4, 1 / 4.0)
+        # to = pow((vir_compensated / (alpha_compensated * (1.0 - self.ks4 * 273.15) + sx)) + tak4, 1 / 4.0) - 273.15
+        sx_data_1 = np.add(np.multiply(np.power(deltaalpha, 3.0), vir_compensated), np.multiply(np.power(deltaalpha, 4.0), tak4))
+        sx = self.ks4 * np.power(sx_data_1, 0.25)
+
+        #to_1 = np.multiply(deltaalpha, (1.0 - self.ks4 * 273.15))
+        to_1 = np.add(np.multiply(deltaalpha, (1.0 - self.ks4 * 273.15)), sx)
+        to_2 = np.add(np.divide(vir_compensated, to_1), tak4)
+        to = np.subtract(np.power(to_2, 0.25), 273.15)
+
+        if self.invert_x:
+            to = np.flipud(to)
+        if self.invert_y:
+            to = np.fliplr(to)
+
+        self.ir_data_static = to.tolist()
+
     def _get_ptat(self):
         tries = 0
         while True:

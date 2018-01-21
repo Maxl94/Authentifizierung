@@ -22,6 +22,7 @@
 \usepackage{ccicons}  % Cite your images correctly!
 \usepackage[utf8]{inputenc} % for a UTF8 editor only
 \usepackage[ngerman]{babel}
+\usepackage{glossaries}
 
 % If you want to use todo notes, marginpars etc. during creation of your draft document, you
 % have to enable the "chi_draft" option for the document class. To do this, change the very first
@@ -89,7 +90,7 @@
 \numberofauthors{4}
 \author{%
   \alignauthor{Alexander Schuhmann\\
-    \email{e-mail address}}\\
+    \email{schuhman@hm.edu}}\\
   \alignauthor{Maximilian Balluff\\
     \email{e-mail address}}\\
   \alignauthor{Michael Stadler\\
@@ -167,15 +168,33 @@ umgesetzt und kann unter \cite{Github:Software} abgerufen werden.
 
 \section{Sensorik}
 
+\newacronym{FOV}{FOV}{Field of view}
+\newacronym{I2C}{I2C}{Inter-Integrated Circuit}
+\newacronym{LDO}{LDO}{Low-dropout regulator}
+\newacronym{EEPROM}{EEPROM}{Electrically Erasable Programmable Read-Only Memory}
 \subsection{Thermosensor}
-
-\begin{itemize}
-  \item Welcher Sensor, was kann er?
-  \item Wozu? Welches Szenario?
-  \item Einbindung des Sensors, Platine
-  \item Auswertung mit OpenCV
-  \item Algorithmus zu Erkennung
-\end{itemize}
+Diebstahl betrifft in den meisten Fällen nur einzelnen Wertgegenstände aus dem umgebenden Transportbehälter. Dies kann man unter anderem den Hinweisen der polizeilichen Kriminalprävention entnehmen\footnote{\url{http://www.polizei-beratung.de/themen-und-tipps/diebstahl-und-einbruch/taschendiebstahl/?L=0}}. Die dort aufgeführten Tricks der Taschendiebe richten sich ausschließlich gegen den Inhalt eines Behälters. Dies haben auch Hersteller von Rucksäcken erkannt und bieten spezielle Modelle mit Diebstahlschutz an\footnote{\url{https://www.xd-design.de/bobby-anti-diebstahl-rucksack-grau}}. Der Schutz liegt hier im erschwerten Öffnen des Rucksacks durch innen liegende Reißverschlüsse.\\
+Um dieses Diebstahlszenario wirksam zu erkennen, soll ein Pyrometer eingesetzt werden. Damit ist es möglich die Wärmestrahlung eines Objektes zu erfassen (siehe auch Stefan-Boltzmann-Gesetz). Der Ansatz bietet den Vorteil, das er unabhängig von Umgebungslicht ist. So müsste bei der optischen Detektion von einer unerlaubt in den Rucksack greifenden Hand eine dauerhafte Beleuchtung gegeben sein. Weiterhin ist die Unterscheidung zwischen einer Hand und den Gegenständen innerhalb des Rucksacks nicht trivial lösbar. Bei einer Erkennung über die Wärmestrahlung kann hingehend davon ausgegangen werden das ein Großteil der Gegenstände sich der Umgebungstemperatur angenähert hat und somit in eine Auswertung nicht einfließt.\\
+Ein einzelnes Pyrometer würde nur einen kleinen Bereich unseres Prototyps abdecken und eine weitere Auswertung verhindern. Es wurde sich für ein Array aus Sensoren entschlossen, als preiswerte Lösung bot sich hier der Sensor MLX90621 vom Hersteller Melexis an. Dieser bietet eine Auflösung von 16 Pixeln in horizontaler und 4 Pixeln in vertikaler Ausrichtung. Den Sensor gibt es mit unterschiedlichem \gls{FOV}, für den Prototyp wurde ein horizontaler Winkel von 100\textdegree{} beziehungsweise 25\textdegree{} vertikaler Winkel als geeignet angesehen. Durch diese großen Winkel soll der geringe Abstand zwischen dem Rücken des Rucksacks und einer Öffnung kompensiert werden.\\
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{fig/thermal_img_static_dyn.pdf}
+	\caption{Vergleich der Sensorkompensation bei statischem und individuellem Ansatz}
+	\label{fig:temp_ir:komp_vgl}
+\end{figure}
+Der Sensor kann Temperatur im Bereich von -20\,\textdegree{}C bis +300\,\textdegree{}C erfassen und darf bei einer Umgebungstemperatur zwischen -40\,\textdegree{}C und +85\,\textdegree{}C betrieben werden. Dieser große Temperaturbereich sollte jedes der Szenarien abdecken. Der Temperatursensor kommuniziert per \gls{I2C} Bus mit dem eingesetzten Raspberry Pi und stellt neben den Strahlungswerten auch Kompensationswerte in einem \gls{EEPROM} zur Verfügung.\\
+Diese Kompensationswerte sind für eine genaue Messung entscheidend und werden vom Hersteller für jeden Sensor einzeln ermittelt. Zur Verdeutlichung der Zusammenhänge soll kurz die Methodik eines solchen Sensors umrissen werden. Jedes Pixel besteht aus einem Thermoelement mit einer sehr geringen thermischen Kapazität, welches von seiner Umgebung durch einen schlechten Wärmeleiter abgegrenzt ist, wie zum Beispiel Vakuum. Durch diese Maßnahmen nimmt das Pixel sehr schnell den Temperaturwert des zu beobachteten Gegenstandes an. Der Spannungswert eines solchen Thermoelements ist aber relativ zur Umgebungstemperatur zu sehen. Somit muss diese ($T_a$) ermittelt werden und in die tatsächliche Temperatur einfließen, es wird von Kaltstellenkompensation gesprochen. Der eigentliche Temperaturwert ergibt sich somit durch Addition der Umgebungstemperatur mit dem Wert des Thermoelements. Durch die thermische Isolation der Elemente reagieren diese sehr träge auf Änderungen der Umgebungstemperatur, somit eilt die Kaltstellenkompensation der eigentlichen relativen Temperatur des Elements voraus. Um das auszugleichen wird noch die Temperatur eines von der Außenwelt isolierten Elements ermittelt und fließt als Heißstellenkompensation ein. Diese beiden Werte werden für alle Elemente als gleich angenommen was aber nur näherungsweise richtig ist. Ein in der Mitte liegende Sensor nimmt die Umgebungstemperatur schneller an als einer am Rand. Das zum Beispiel wird durch einen Wert innerhalb des \gls{EEPROM} individuell pro Element kompensiert. Der Unterschied zwischen allgemeiner und individueller Kompensation wird in \autoref{fig:temp_ir:komp_vgl} dargestellt.
+In der Abbildung ist zu sehen das die Werte der statischen Kompensation stärker Rauschen und mit einem allgemeinen Offset versehen sind, wie die der individuellen Kompensation. Die Notwendigkeit einer solchen ist für eine fehlerarme Erkennung notwendig.\\
+Der Sensor benötigt für optimale Betriebszustände einer Versorgungsspannung von 2,6\,Volt. Da der Raspberry Pi nur 3.3\,Volt und 5.0\,Volt zur Verfügung stellt musste einer externe Platine erstellt werden. Diese beinhaltet auch den in \autoref{ssec:lichtsensor} beschriebenen Lichtsensor und ist in \autoref{fig:platine} dargestellt. 
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{fig/platine.png}
+	\caption{Darstellung der Platine in 3D}
+	\label{fig:platine}
+\end{figure}
+Die Platine stellt per \gls{LDO} eine Spannung von 2,6\,Volt bereit.\\
+Die oben genannte Kompensation ist sehr zeitaufwendig. Durch mehrere Optimierungen mit numpy und Berechnung der Daten als Array war es möglich die Belastung des Raspberrys so weit zu reduzieren, das zirka 15 Frames pro Sekunden übertragen werden können. Der Sensor unterstützt bis zu 512 Frames pro Sekunde.
+Nach der Kompensation stellt der Raspberry Pi die Daten per UDP in einem JSON Format zur Verfügung. Diese werden von einem OpenCV Skript angefordert. Dort wird auf das Rohbild ein Gaußscher Hintergrund / Vordergrund Segmentierungsalgorithmus zur Hintergrundentfernung angewendet. Von OpenCV wird dieser in der Klasse \emph{BackgroundSubtractorMOG2} zur Verfügung gestellt. Eine Schattenerkennung ist bei diesem deaktiviert, da nicht zum Sensor gerichtete thermische Abstrahlung nicht erkannt werden kann und die Notwendigkeit in diesem Fall nicht gegeben ist. Dieser Algorithmus funktioniert ohne weitere Anpassung sehr gut, hat aber das Problem des Einbrennens. Das heißt eine Wärmequelle, wie zum Beispiel eine Hand, geht nach einiger Zeit in den Hintergrund ein. Dies ist kein gewünschtes Verhalten, da unser System darauf ausgelegt ist, die Anwesenheit unabhängig von der Dauer zu erkennen. Dies wurde umgangen, indem Gegenstände die sich mehr als 3\,K von der Umgebungstemperatur unterscheiden, nur schwach gewichtet in den Lernprozess einfließen. Als Ergebnis wird somit ein 16x4 Pixel große Array erzeugt, dessen Elemente zwei Werte annehmen können - 0 für Hintergrund und 255 für den Vordergrund. Der Mittelwert dieses Arrays wird gegen einen Schwellwert verglichen und dann gegebenenfalls Alarm ausgelöst. Dieser ist vom Benutzer bestimmbar um möglichst flexibel auf gewünschte Wärmequellen reagieren zu können.
 
 \subsection{Beschleunigungssensor}
 Um detektieren zu können ob der Rucksack in Bewegung ist oder
@@ -216,7 +235,7 @@ betrieben und über einen USB-TTL Adapter an das RaspberryPi
 angebunden. Der Schritt über den USB Adapter ist nötig, da der
 interne UART bereits für den GPS Empfänger verwendet wird.
 
-\subsection{Lichtsensor}
+\subsection{Lichtsensor}\label{ssec:lichtsensor}
 
 \begin{itemize}
   \item Wozu? Welches Szenario?

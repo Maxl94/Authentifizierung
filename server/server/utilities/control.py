@@ -4,6 +4,7 @@ from .hw import bno
 from .hw import ldr_modul
 from .hw import ir_modul
 from .hw import motion_det
+from .hw import gps_modul
 from geopy.distance import vincenty
 import time
 
@@ -27,6 +28,8 @@ class Control(Thread):
         self.gyro = bno.Gyro()
         self.ir = ir_modul.IrI2c()
         self.motion = motion_det.MotionDetection()
+        self.gps = gps_modul.gps_uart()
+
         # TODO fix light sensor
         # self.light = ldr_modul.Ldr()
 
@@ -71,6 +74,7 @@ class Control(Thread):
 
     def start_sensors(self):
         print("starting sensors")
+        self.gps.start()
         self.gyro.start()
         ir_modul.initIRPack()
         self.motion.start()
@@ -90,13 +94,12 @@ class Control(Thread):
     def update_gps_data(self):
         print("updating gps data")
         self.old_gps_array = self.gps_array
-
-        # TODO Impl real gps check here
-        self.gps_array = [48.85, 2.29]
+        self.gps_array = [self.gps.get_data().lat, self.gps.get_data().long]
 
         self.dummy_safe_zone.x_cord = self.gps_array[0]
         self.dummy_safe_zone.y_cord = self.gps_array[1]
 
+        # FIXME untested: should override db object from django
         self.save()
 
     def check_gps_diff(self):

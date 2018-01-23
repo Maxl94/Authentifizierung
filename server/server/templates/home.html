@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{% static "css/base.css" %}">
 {% endblock %}
 
-{% block title %}Home{% endblock %}
-{% block header %}Home{% endblock %}
+{% block title %}Profiles{% endblock %}
+{% block header %}Prfofiles{% endblock %}
 
 
 {% block pageContent %}
@@ -21,12 +21,15 @@
     <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--2dp my-card-wide">
             <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text mdl-card--border">Alarm Mod</h2>
+                <h2 class="mdl-card__title-text mdl-card--border">Available profiles</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-card--border">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-                    sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                Choose an alarm profil. There are three standard profiles availabel:
+                <ul>
+                    <li>Unarmed: No alarm active</li>
+                    <li>Locked: Opening detection active</li>
+                    <li>Armed: Movement detection active</li>
+                </ul>
             </div>
             <div class="mdl-card__actions mdl-card--border">
                 {% for item in modes %}

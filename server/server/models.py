@@ -23,3 +23,13 @@ class Setting(models.Model):
         print('gyro_sensor_is_active: {0}'.format(self.gyro_sensor_is_active))
         print('sound_alarm_is_active: {0}'.format(self.sound_alarm_is_active))
         print('alarm_duration: {0}'.format(self.alarm_duration))
+
+
+class Savezone(models.Model):
+    name = models.CharField(max_length=20, blank=False, null=False)
+    radius = models.IntegerField(blank=False, null=False)
+    x_cord = models.IntegerField(blank=False, null=False)
+    y_cord = models.IntegerField(blank=False, null=False)
+
+    def __str__(self):
+        return self.name

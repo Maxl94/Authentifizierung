@@ -13,12 +13,12 @@ class Control(Thread):
     def __init__(self, config, dummy_safe_zone):
         print("started init")
         super().__init__()
-        self.sensor_timeout = 0.01
+        self.sensor_timeout = 0.01  # in seconds
         self.ir_threshold = 20
 
         self.gps_array = [0, 0]
         self.old_gps_array = [0, 0]
-        self.gps_diff_threshold = 0.0005
+        self.gps_diff_threshold = 50  # in meters
 
         self.config = config
         self.dummy_safe_zone = dummy_safe_zone
@@ -58,6 +58,7 @@ class Control(Thread):
             if self.config.gps_is_active:
                 self.update_gps_data()
                 if self.check_gps_diff():
+                    # TODO handle return from check_safe_zones()
                     self.check_safe_zones()
 
             time.sleep(self.sensor_timeout)
@@ -106,12 +107,14 @@ class Control(Thread):
             return False
 
     def check_safe_zones(self):
+        print("checking if inside of a safe zone")
         for item in self.safe_zone_list:
             safe_zone_cords = [item.x_cord, item.y_cord]
             diff_from_safe = vincenty(safe_zone_cords, self.gps_array).meters
             if diff_from_safe <= item.radius:
+                print("inside of a safe zone")
                 return True
-
+        print("not inside of a safe zone")
         return False
 
     # ----- sensor methods -----

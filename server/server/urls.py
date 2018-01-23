@@ -29,4 +29,9 @@ urlpatterns = [
     url(r'settings/delete/(?P<id>\d+)/$', DeleteModeView.as_view()),
     url(r'set_mode/(?P<id>\d+)/$', SetModeView.as_view()),
     url(r'alarm_off/$', AlarmOffView.as_view()),
+    url(r'locations/$', LocationsView.as_view()),
+    url(r'locations/create/$', LocationCreateView.as_view()),
+    url(r'locations/update/(?P<id>\d+)/$', LocationUpdateView.as_view()),
+    url(r'locations/delete/(?P<id>\d+)/$', LocationDeleteView.as_view()),
 ]
+

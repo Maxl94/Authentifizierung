@@ -25,7 +25,7 @@ class Setting(models.Model):
         print('alarm_duration: {0}'.format(self.alarm_duration))
 
 
-class Savezone(models.Model):
+class Safezone(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     radius = models.IntegerField(blank=False, null=False)
     x_cord = models.IntegerField(blank=False, null=False)

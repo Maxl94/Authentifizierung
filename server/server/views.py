@@ -4,7 +4,7 @@ from django.views.generic import View, TemplateView, CreateView, UpdateView, Del
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
-from .models import Setting
+from .models import Setting, Safezone
 from .wsgi import CONTROLLER, ACTIVE_MODE
 
 
@@ -99,3 +99,41 @@ class AlarmOffView(View):
 @method_decorator(login_required, name='dispatch')
 class VideoView(TemplateView):
     template_name = "ir_sensor.html"
+
+@method_decorator(login_required, name='dispatch')
+class LocationsView(TemplateView):
+    template_name = 'locations.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['locations'] = Safezone.objects.filter(id__gte=1)
+        print(context['locations'])
+        return context
+
+@method_decorator(login_required, name='dispatch')
+class LocationCreateView(CreateView):
+    template_name = 'locations_create.html'
+    model = Savezone
+    success_url = '/locations'
+    fields = '__all__'
+
+@method_decorator(login_required, name='dispatch')
+class LocationUpdateView(UpdateView):
+    model = Setting
+    success_url = '/locations'
+    template_name = 'locations_update.html'
+    fields = '__all__'
+    
+    def get_object(self, queryset=None):
+        obj = Safezone.objects.get(id=self.kwargs['id'])
+        return obj
+
+@method_decorator(login_required, name='dispatch')
+class LocationDeleteView(DeleteView):
+    model = Setting
+    success_url = '/locations'
+    template_name = 'locations_detele.html'
+    
+    def get_object(self, queryset=None):
+        obj = Safezone.objects.get(id=self.kwargs['id'])
+        return obj

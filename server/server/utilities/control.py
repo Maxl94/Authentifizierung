@@ -106,10 +106,13 @@ class Control(Thread):
             return False
 
     def check_safe_zones(self):
-        # TODO check if inside of a safe zone
-        # iterate over safe zone array
-        # maybe sort array first
-        self.gps_array
+        for item in self.safe_zone_list:
+            safe_zone_cords = [item.x_cord, item.y_cord]
+            diff_from_safe = vincenty(safe_zone_cords, self.gps_array).meters
+            if diff_from_safe <= item.radius:
+                return True
+
+        return False
 
     # ----- sensor methods -----
     def check_sensor_gyro(self):

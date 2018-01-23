@@ -1,12 +1,14 @@
 from django.db import models
 
-class Setting(models.Model):
+class Profile(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     description = models.CharField(max_length=120, blank=False, null=False)
     is_locked = models.BooleanField(default=False)
     gps_is_active = models.BooleanField(default=False)
     light_sensor_is_active = models.BooleanField(default=False)
+    light_sensor_threshold = models.FloatField(default=0.01)
     ir_sensor_is_active = models.BooleanField(default=False)
+    ir_sensor_threshold = models.FloatField(default=0.01)
     gyro_sensor_is_active = models.BooleanField(default=False)
     sound_alarm_is_active = models.BooleanField(default=False)
     alarm_duration = models.IntegerField(default=120)
@@ -28,8 +30,8 @@ class Setting(models.Model):
 class Safezone(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     radius = models.IntegerField(blank=False, null=False)
-    x_cord = models.IntegerField(blank=False, null=False)
-    y_cord = models.IntegerField(blank=False, null=False)
+    longitude = models.FloatField(blank=False, null=False)
+    latitude = models.FloatField(blank=False, null=False)
 
     def __str__(self):
         return self.name

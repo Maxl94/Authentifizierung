@@ -4,7 +4,7 @@ from django.views.generic import View, TemplateView, CreateView, UpdateView, Del
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
-from .models import Setting, Safezone
+from .models import Profile, Safezone
 from .wsgi import CONTROLLER, ACTIVE_MODE
 
 
@@ -15,7 +15,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['modes'] = Setting.objects.all().order_by('id')
+        context['modes'] = Profile.objects.all().order_by('id')
         context['active_mode'] = ACTIVE_MODE
         return context
 
@@ -43,42 +43,42 @@ class SettingsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['modes'] = Setting.objects.filter(id__gte=4)
+        context['modes'] = Profile.objects.filter(id__gte=4)
         print(context['modes'])
         return context
 
 @method_decorator(login_required, name='dispatch')
 class CreateModeView(CreateView):
-    model = Setting
+    model = Profile
     success_url = '/settings'
     template_name = 'create_mode.html'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class UpdateModeView(UpdateView):
-    model = Setting
+    model = Profile
     success_url = '/settings'
     template_name = 'update_mode.html'
     fields = '__all__'
     
     def get_object(self, queryset=None):
-        obj = Setting.objects.get(id=self.kwargs['id'])
+        obj = Profile.objects.get(id=self.kwargs['id'])
         return obj
 
 @method_decorator(login_required, name='dispatch')
 class DeleteModeView(DeleteView):
-    model = Setting
+    model = Profile
     success_url = '/settings'
     template_name = 'delete_mode.html'
 
     def get_object(self, queryset=None):
-        obj = Setting.objects.get(id=self.kwargs['id'])
+        obj = Profile.objects.get(id=self.kwargs['id'])
         return obj
 
 @method_decorator(login_required, name='dispatch')
 class SetModeView(View):
     def get(self, request, **kwargs):
-        obj = Setting.objects.get(id=self.kwargs['id'])
+        obj = Profile.objects.get(id=self.kwargs['id'])
         # Rufe Michis Zeug auf
         
         print('Michis zeug aufrufen')
@@ -106,20 +106,20 @@ class LocationsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['locations'] = Safezone.objects.filter(id__gte=1)
+        context['locations'] = Safezone.objects.filter(id__gte=2)
         print(context['locations'])
         return context
 
 @method_decorator(login_required, name='dispatch')
 class LocationCreateView(CreateView):
     template_name = 'locations_create.html'
-    model = Savezone
+    model = Safezone
     success_url = '/locations'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class LocationUpdateView(UpdateView):
-    model = Setting
+    model = Safezone
     success_url = '/locations'
     template_name = 'locations_update.html'
     fields = '__all__'
@@ -130,9 +130,9 @@ class LocationUpdateView(UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 class LocationDeleteView(DeleteView):
-    model = Setting
+    model = Safezone
     success_url = '/locations'
-    template_name = 'locations_detele.html'
+    template_name = 'locations_delete.html'
     
     def get_object(self, queryset=None):
         obj = Safezone.objects.get(id=self.kwargs['id'])

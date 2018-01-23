@@ -19,7 +19,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     <p>Are you sure you want to delete "{{ object }}"?</p>
-                    <a type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="/settings">No, Back</a>
+                    <a type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="/locations">No, Back</a>
                     <input type="submit" value="Yes" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"/>
                 </form>
             </div>

@@ -11,10 +11,10 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 from .utilities.control import Control
-from .models import Setting
+from .models import Profile
 
 ACTIVE_MODE = 1
-setting = Setting.objects.get(id=ACTIVE_MODE)
+setting = Profile.objects.get(id=ACTIVE_MODE)
 CONTROLLER = Control(setting)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")

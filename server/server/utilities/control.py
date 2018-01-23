@@ -96,8 +96,8 @@ class Control(Thread):
         self.old_gps_array = self.gps_array
         self.gps_array = [self.gps.get_data().lat, self.gps.get_data().long]
 
-        self.dummy_safe_zone.x_cord = self.gps_array[0]
-        self.dummy_safe_zone.y_cord = self.gps_array[1]
+        self.dummy_safe_zone.latitude = self.gps_array[0]
+        self.dummy_safe_zone.longitude = self.gps_array[1]
 
         # FIXME untested: should override db object from django
         self.save()
@@ -112,7 +112,7 @@ class Control(Thread):
     def check_safe_zones(self):
         print("checking if inside of a safe zone")
         for item in self.safe_zone_list:
-            safe_zone_cords = [item.x_cord, item.y_cord]
+            safe_zone_cords = [item.latitude, item.longitude]
             diff_from_safe = vincenty(safe_zone_cords, self.gps_array).meters
             if diff_from_safe <= item.radius:
                 print("inside of a safe zone")

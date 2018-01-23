@@ -45,7 +45,15 @@ class Control(Thread):
                 # if self.config.light_sensor_is_active:
                     # TODO fix light sensor
                     # self.check_sensor_light()
+            if self.config.gps_is_active:
+                self.update_gps_data()
             time.sleep(self.sensor_timeout)
+
+    # write gps data to django database on regular bases
+    def update_gps_data(self):
+        # TODO call gps sensor for value
+        gps_array = [48.85, 2.29]
+        # TODO overwrite db value with new gps value
 
     # method to update config, config includes all active sensors and utility
     def update_config(self, config):

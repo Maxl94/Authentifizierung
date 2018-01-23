@@ -57,8 +57,8 @@ class MotionDetection(threading.Thread):
         threading.Thread.__init__(self)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.fgbg = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=4, detectShadows=False)
-        self.fourcc = cv2.VideoWriter_fourcc(*'MPEG')
-        self.out = cv2.VideoWriter('out.avi', self.fourcc, 20.0, (640, 160))
+        self.fourcc = cv2.VideoWriter_fourcc(*'MP42')
+        self.out = cv2.VideoWriter('static/test.avi', self.fourcc, 20.0, (640, 160))
         self.run_event = threading.Event()
         self.run_event.set()
         self.fgmask = 0

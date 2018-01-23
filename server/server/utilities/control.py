@@ -11,7 +11,7 @@ class Control(Thread):
     def __init__(self, config):
         print("started init")
         super().__init__()
-        self.sensor_timeout = 3
+        self.sensor_timeout = 0.01
         self.ir_threshold = 20
 
         self.config = config
@@ -35,8 +35,8 @@ class Control(Thread):
     # method looks for active sensors and if the want to request an alarm
     def check_sensors(self):
         while True:
-            print("checking active sensors")
-            self.config.debug()
+            #print("checking active sensors")
+            #self.config.debug()
             if self.config.sound_alarm_is_active:
                 if self.config.gyro_sensor_is_active:
                     self.check_sensor_gyro()

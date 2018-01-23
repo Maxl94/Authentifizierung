@@ -269,3 +269,6 @@ venv.bak/
 *blx.bib
 *run.xml
 *.bcf    
+
+#
+start_local.sh

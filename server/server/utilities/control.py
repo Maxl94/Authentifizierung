@@ -4,6 +4,7 @@ from .hw import bno
 from .hw import ldr_modul
 from .hw import ir_modul
 from .hw import motion_det
+from geopy.distance import vincenty
 import time
 
 
@@ -98,16 +99,8 @@ class Control(Thread):
         self.save()
 
     def check_gps_diff(self):
-        # TODO get real geo cord comparison with lib
-        old_x_cord_val = abs(self.old_gps_array[0])
-        old_y_cord_val = abs(self.old_gps_array[1])
-        new_x_cord_val = abs(self.gps_array[0])
-        new_y_cord_val = abs(self.gps_array[1])
-
-        x_cord_dif = abs(old_x_cord_val - new_x_cord_val)
-        y_cord_dif = abs(old_y_cord_val - new_y_cord_val)
-
-        if x_cord_dif >= self.gps_diff_threshold or y_cord_dif >= self.gps_diff_threshold:
+        gps_diff = vincenty(self.old_gps_array, self.gps_array).meters
+        if gps_diff >= self.gps_diff_threshold:
             return True
         else:
             return False

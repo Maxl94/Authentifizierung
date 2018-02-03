@@ -92,11 +92,14 @@ class Control(Thread):
     # write gps data to django database on regular bases
     def update_gps_data(self):
         print("updating gps data")
-        self.old_gps_array = self.gps_array
+        self.old_gps_array = self.gps_array[:]
         self.gps_array = [self.gps.get_data().lat, self.gps.get_data().long]
 
-        self.dummy_safe_zone.latitude = self.gps_array[0]
-        self.dummy_safe_zone.longitude = self.gps_array[1]
+        # TODO fix in gps module
+        _lat = str(self.gps_array[0]).split(',')
+        _long = str(self.gps_array[0]).split(',')
+        self.dummy_safe_zone.latitude = float(_lat[0])
+        self.dummy_safe_zone.longitude = float(_long[0])
 
         # FIXME untested: should override db object from django
         print('DEBUG: GPS {}:{}'.format(self.gps_array[0], self.gps_array[1]))

@@ -20,7 +20,7 @@ from .views import *
 urlpatterns = [
     url(r'^$', LoginView.as_view()),    
     url(r'^admin/', admin.site.urls),
-    url(r'api/', include('server.api.urls'))
+    url(r'api/', include('server.api.urls')),
     url(r'^home/$', HomeView.as_view()),
     url(r'login/$', LoginView.as_view()),
     url(r'settings/$', SettingsView.as_view()),

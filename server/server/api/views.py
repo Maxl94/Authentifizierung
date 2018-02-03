@@ -22,5 +22,4 @@ def ir_stream(request):
 def gen():
     while True:
         frame = CONTROLLER.motion.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        yield(frame)

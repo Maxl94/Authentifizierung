@@ -14,7 +14,9 @@ from .utilities.control import Control
 from .models import Profile, Safezone
 
 ACTIVE_MODE = 1
-setting = Profile.objects.get(id=ACTIVE_MODE)
+# Zum erneuten Erstellen der Datenbank
+# settings und safe zobe als leere Arrays definieren und db_is_ready=False
+setting =  Profile.objects.get(id=ACTIVE_MODE)
 safe_zones = Safezone.objects.get(id=1)
 CONTROLLER = Control(setting, safe_zones, db_is_ready=True)
 

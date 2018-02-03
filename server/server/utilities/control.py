@@ -125,26 +125,26 @@ class Control(Thread):
 
     # ----- sensor methods -----
     def check_sensor_gyro(self):
-        print("checking sensor: gyro")
+        #print("checking sensor: gyro")
         if self.gyro.was_moved():
             print("backpack moved: starting alarm")
             self.start_alarm()
-        else:
-            print("backpack was not moved")
+        #else:
+            #print("backpack was not moved")
 
     def check_sensor_ir(self):
-        print("checking sensor: ir")
-        print("Motion filtered data percent value: {}".format(self.motion.get_filtered_data_percent()))
+        #print("checking sensor: ir")
+        #print("Motion filtered data percent value: {}".format(self.motion.get_filtered_data_percent()))
         if self.motion.get_filtered_data_percent() > self.ir_threshold:
             print("temperature change detected: alarm started")
             self.start_alarm()
-        else:
-            print("no significant temperature change detected")
+        #else:
+            #print("no significant temperature change detected")
 
     def check_sensor_light(self):
-        print("checking sensor: light")
+        #print("checking sensor: light")
         if self.light.get_pin():
             print("light change detected: starting alarm")
             self.start_alarm()
-        else:
-            print("no light changes detected")
+        #else:
+            #print("no light changes detected")

@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import cv2
 import socket
 import json
@@ -36,8 +37,11 @@ class MotionDetection(threading.Thread):
                     self.fgmask = np.zeros(size, dtype='uint8')
                     thermal_img = cv2.convertScaleAbs(data, thermal_img, cscale, shift / 255.0)
                     colorFrame = cv2.cvtColor(thermal_img, cv2.COLOR_GRAY2BGR)
-                    colorFrame = cv2.resize(colorFrame, (0,0), fx=40.0, fy=40.0, interpolation=cv2.INTER_NEAREST)
-                    self.out.write(colorFrame)
+                    self.colorFrame = cv2.resize(colorFrame, (0,0), fx=40.0, fy=40.0, interpolation=cv2.INTER_NEAREST)
+                    ret, jpeg = cv2.imencode('.jpg', self.colorFrame, self.encode_param)
+                    self.colorFrameJPG = jpeg.tobytes()
+
+                    #self.out.write(colorFrame)
                     #cv2.imshow("Input, scaled", colorFrame)
 
                     learning_rate = -1
@@ -57,14 +61,21 @@ class MotionDetection(threading.Thread):
         threading.Thread.__init__(self)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.fgbg = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=4, detectShadows=False)
-        self.fourcc = cv2.VideoWriter_fourcc(*'MP42')
-        self.out = cv2.VideoWriter('static/test.avi', self.fourcc, 20.0, (640, 160))
+        #self.fourcc = cv2.VideoWriter_fourcc(*'VP80')
+        #self.videofile = 'server/static/test.avi'
+        #print("Video erzeugt in: " + os.getcwd() + "/" + self.videofile)
+        #self.out = cv2.VideoWriter(self.videofile, self.fourcc, 20.0, (640, 160))
         self.run_event = threading.Event()
         self.run_event.set()
         self.fgmask = 0
+        self.encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 50]
+        self.colorFrameJPG = None
 
     def get_filtered_data_percent(self):
         return np.mean(self.fgmask)
+
+    def get_frame(self):
+        return self.colorFrameJPG
 
 if __name__ == "__main__":
     motion_det = MotionDetection()

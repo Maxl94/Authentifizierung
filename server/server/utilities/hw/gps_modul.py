@@ -53,9 +53,9 @@ class gps_uart(threading.Thread):
 
     def clear_gps_store(self):
         self.data_lock.acquire(blocking=True, timeout=-1)
-        self.gps_store.altitude = ""
-        self.gps_store.lat = ""
-        self.gps_store.long = ""
+        self.gps_store.altitude = None
+        self.gps_store.lat = None
+        self.gps_store.long = None
         self.gps_store.utc_time = None
         self.gps_store.nr_sat = 0
         self.data_lock.release()
@@ -88,8 +88,8 @@ class gps_uart(threading.Thread):
                         if msg.is_valid:
                             self.data_lock.acquire(blocking=True, timeout=-1)
                             self.gps_store.altitude = "%.2f" % msg.altitude + msg.altitude_units
-                            self.gps_store.lat = "%.8f" % msg.latitude + "," + msg.lat_dir
-                            self.gps_store.long = "%.8f" % msg.longitude + "," + msg.lon_dir
+                            self.gps_store.lat = "%.8f" % msg.latitude
+                            self.gps_store.long = "%.8f" % msg.longitude
                             self.gps_store.utc_time = msg.__getattr__('timestamp')
                             self.gps_store.nr_sat = msg.__getattr__('num_sats')
                             self.data_lock.release()
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     gps_uart.start()
     try:
         while gps_uart.is_alive():
-            print("Akt. Altitude: " + gps_uart.get_data().altitude)
+            print(gps_uart.get_data().lat)
             time.sleep(10)
     except KeyboardInterrupt:
         gps_uart.close()

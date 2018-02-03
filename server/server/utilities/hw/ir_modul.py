@@ -383,3 +383,7 @@ def initIRPack():
         i2c_thread.start()
     server = UDPServerThread()
     server.start()
+
+if __name__ == "__main__":
+    initIRPack()
+    i2c_thread.join()

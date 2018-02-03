@@ -10,32 +10,33 @@ import time
 
 
 class Control(Thread):
-
-    def __init__(self, config, dummy_safe_zone):
+    # TODO: rename dummy_safe_zone to a more fitting name (i.e. something with list)
+    def __init__(self, config, dummy_safe_zone, db_is_ready):
         print("started init")
         super().__init__()
-        self.sensor_timeout = 0.01  # in seconds
-        self.ir_threshold = 20
+        if db_is_ready:
+            self.sensor_timeout = 0.01  # in seconds
+            self.ir_threshold = 20
 
-        self.gps_array = [0, 0]
-        self.old_gps_array = [0, 0]
-        self.gps_diff_threshold = 50  # in meters
+            self.gps_array = [0, 0]
+            self.old_gps_array = [0, 0]
+            self.gps_diff_threshold = 50  # in meters
 
-        self.config = config
-        self.dummy_safe_zone = dummy_safe_zone
+            self.config = config
+            self.dummy_safe_zone = dummy_safe_zone
 
-        # init sensors
-        self.alarm = Alarm()
-        self.gyro = bno.Gyro()
-        self.ir = ir_modul.IrI2c()
-        self.motion = motion_det.MotionDetection()
-        self.gps = gps_modul.gps_uart()
+            # init sensors
+            self.alarm = Alarm()
+            self.gyro = bno.Gyro()
+            self.ir = ir_modul.IrI2c()
+            self.motion = motion_det.MotionDetection()
+            self.gps = gps_modul.gps_uart()
 
-        # TODO fix light sensor
-        # self.light = ldr_modul.Ldr()
+            # TODO fix light sensor
+            # self.light = ldr_modul.Ldr()
 
-        self.start_sensors()
-        self.start()
+            self.start_sensors()
+            self.start()
         print("finished init")
 
     def run(self):

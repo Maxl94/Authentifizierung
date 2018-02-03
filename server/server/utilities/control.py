@@ -113,12 +113,12 @@ class Control(Thread):
 
     def check_safe_zones(self):
         print("checking if inside of a safe zone")
-        for item in self.safe_zone_list:
+        """for item in self.safe_zone_list:
             safe_zone_cords = [item.latitude, item.longitude]
             diff_from_safe = vincenty(safe_zone_cords, self.gps_array).meters
             if diff_from_safe <= item.radius:
                 print("inside of a safe zone")
-                return True
+                return True"""
         print("not inside of a safe zone")
         return False
 

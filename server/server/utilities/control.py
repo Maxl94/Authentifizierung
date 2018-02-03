@@ -59,11 +59,11 @@ class Control(Thread):
                     # self.check_sensor_light()
 
             # ----- gps sensor ----------
-            if self.config.gps_is_active:
-                self.update_gps_data()
-                if self.check_gps_diff():
-                    # TODO handle return from check_safe_zones()
-                    self.check_safe_zones()
+            
+            self.update_gps_data()
+            if self.check_gps_diff():
+                # TODO handle return from check_safe_zones()
+                self.check_safe_zones()
 
             time.sleep(self.sensor_timeout)
 

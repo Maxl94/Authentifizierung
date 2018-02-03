@@ -30,8 +30,8 @@ class Profile(models.Model):
 class Safezone(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     radius = models.IntegerField(blank=False, null=False)
-    longitude = models.FloatField(blank=False, null=False)
-    latitude = models.FloatField(blank=False, null=False)
+    latitude = models.CharField(blank=False, null=False, max_length=30)
+    longitude = models.CharField(blank=False, null=False, max_length=30)
 
     def __str__(self):
         return self.name

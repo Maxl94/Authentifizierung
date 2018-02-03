@@ -98,12 +98,12 @@ class Control(Thread):
         # TODO fix in gps module
         _lat = self.gps.get_data().lat
         _long = self.gps.get_data().lat
-        print('DEBUG: GPS {0}:{1}'.format(self.gps.get_data().lat, self.gps.get_data().long))
+        #print('DEBUG: GPS {0}:{1}'.format(self.gps.get_data().lat, self.gps.get_data().long))
         if _lat.replace(' ', '') != '' and _long.replace(' ', ''):
             _flat = str(self.gps.get_data().lat).split(',')
             _flong = str(self.gps.get_data().long).split(',')
-            self.dummy_safe_zone.latitude = float(_lat[0])
-            self.dummy_safe_zone.longitude = float(_long[0])
+            self.dummy_safe_zone.latitude = float(_flat[0])
+            self.dummy_safe_zone.longitude = float(_flong[0])
 
             # FIXME untested: should override db object from django
             self.dummy_safe_zone.save()

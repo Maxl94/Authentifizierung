@@ -11,11 +11,11 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 from .utilities.control import Control
-from .models import Profile
+from .models import Profile, Safezone
 
 ACTIVE_MODE = 1
 setting = Profile.objects.get(id=ACTIVE_MODE)
-safe_zones = []
+safe_zones = Safezone.object.get(id=1)
 CONTROLLER = Control(setting, safe_zones, db_is_ready=True)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")

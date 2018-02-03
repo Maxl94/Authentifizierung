@@ -99,6 +99,7 @@ class Control(Thread):
         self.dummy_safe_zone.longitude = self.gps_array[1]
 
         # FIXME untested: should override db object from django
+        print('DEBUG: GPS {}:{}'.format(self.gps_array[0], self.gps_array[1]))
         self.save()
 
     def check_gps_diff(self):

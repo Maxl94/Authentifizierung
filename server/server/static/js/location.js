@@ -26,6 +26,6 @@ function getLocation() {
 function showPosition(position) {
     console.log("Latitude: " + position.latitude + 
                 "Longitude: " + position.longitude);
-    longitude[0].innerhtl = position.longitude
+    longitude[0].value = position.longitude
     latitude[0].value = position.latitude
 }

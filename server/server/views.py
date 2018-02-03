@@ -6,7 +6,25 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from .models import Profile, Safezone
 from .wsgi import CONTROLLER, ACTIVE_MODE
+from utilities.hw.nfc import NfcReader
 
+def nfc_callback(status, id):
+    global ACTIVE_MODE, CONTROLLER
+
+    if ACTIVE_MODE = 1:
+        ACTIVE_MODE = 3
+    else:
+        ACTIVE_MODE = 1
+    obj = Profile.objects.get(id=self.kwargs['id'])
+
+    ACTIVE_MODE = obj.id
+    CONTROLLER.update_config(obj)
+    print('Active mode = {0}'.format(ACTIVE_MODE))
+
+
+
+NFC_READER = NfcReader(nfc_callback)
+NFC_READER.start()
 
 
 @method_decorator(login_required, name='dispatch')

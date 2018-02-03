@@ -100,7 +100,7 @@ class Control(Thread):
 
         # FIXME untested: should override db object from django
         print('DEBUG: GPS {}:{}'.format(self.gps_array[0], self.gps_array[1]))
-        self.save()
+        self.dummy_safe_zone.save()
 
     def check_gps_diff(self):
         gps_diff = vincenty(self.old_gps_array, self.gps_array).meters

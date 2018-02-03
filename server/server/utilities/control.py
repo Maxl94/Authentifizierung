@@ -96,7 +96,7 @@ class Control(Thread):
         self.gps_array = [self.gps.get_data().lat, self.gps.get_data().long]
 
         # TODO fix in gps module
-        print('DEBUG: GPS {}:{}'.format(self.gps_array[0], self.gps_array[1]))
+        print('DEBUG: GPS {0}:{1}'.format(self.gps_array[0], self.gps_array[1]))
         _lat = str(self.gps_array[0]).split(',')
         _long = str(self.gps_array[0]).split(',')
         self.dummy_safe_zone.latitude = float(_lat[0])

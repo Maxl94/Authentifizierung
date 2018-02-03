@@ -15,9 +15,8 @@ def nfc_callback(status, id):
         ACTIVE_MODE = 3
     else:
         ACTIVE_MODE = 1
-    obj = Profile.objects.get(id=ACTIVE_MODE)
 
-    ACTIVE_MODE = obj.id
+    obj = Profile.objects.get(id=ACTIVE_MODE)
     CONTROLLER.update_config(obj)
     print('Active mode = {0}'.format(ACTIVE_MODE))
 

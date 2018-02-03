@@ -9,6 +9,7 @@ class Alarm:
     def __init__(self):
         pygame.init()
         self.sound = pygame.mixer.Sound(self.sound_file_path)
+        self.sound.set_volume(1.0)
 
     def start_alarm(self, duration):
         print("got alarm request")

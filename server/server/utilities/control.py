@@ -71,6 +71,7 @@ class Control(Thread):
     def update_config(self, config):
         print("updating config")
         self.config = config
+        self.alarm.stop_alarm()
         print("update completed")
 
     def start_sensors(self):

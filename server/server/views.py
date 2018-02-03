@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from .models import Profile, Safezone
 from .wsgi import CONTROLLER, ACTIVE_MODE
-from utilities.hw.nfc import NfcReader
+from .utilities.hw.nfc import NfcReader
 
 def nfc_callback(status, id):
     global ACTIVE_MODE, CONTROLLER

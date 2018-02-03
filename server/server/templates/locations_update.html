@@ -19,15 +19,15 @@
                 <h2 class="mdl-card__title-text mdl-card--border">Update safezone</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-card--border">
-                <button onclick="getLocation()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                    <i class="material-icons">location_searching</i> Current location
-                </button>
                 <p id="error"></p>
                 <form method="POST" action="">
                     {% csrf_token %}
                     <table>
                     {{form.as_table}}
                     </table>
+                    <button onclick="getLocation()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <i class="material-icons">location_searching</i> Current location
+                    </button>
                     <input type="submit" value="Update" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"/>
                 </form>
             </div>

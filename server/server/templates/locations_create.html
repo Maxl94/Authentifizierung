@@ -43,8 +43,6 @@
         console.log("Searching location")
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-            console.log("Latitude: " + position.coords.latitude + 
-                        "Longitude: " + position.coords.longitude);
         } else { 
             console.log("... failed")
             error.innerHTML = "Geolocation is not supported by this browser.";
@@ -52,6 +50,8 @@
     }
     
     function showPosition(position) {
+        console.log("Latitude: " + position.coords.latitude + 
+                        "Longitude: " + position.coords.longitude);
         longitude.value = position.coords.longitude
         latitude.value = position.coords.latitude
     }

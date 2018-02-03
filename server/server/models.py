@@ -11,7 +11,7 @@ class Profile(models.Model):
     ir_sensor_threshold = models.FloatField(default=0.01)
     gyro_sensor_is_active = models.BooleanField(default=False)
     sound_alarm_is_active = models.BooleanField(default=False)
-    alarm_duration = models.IntegerField(default=120)
+    alarm_duration = models.IntegerField(default=120,  verbose_name='Alarm duration [s]')
 
     def __str__(self):
         return self.name
@@ -29,7 +29,7 @@ class Profile(models.Model):
 
 class Safezone(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
-    radius = models.IntegerField(blank=False, null=False, verbose_name='Radius in meters')
+    radius = models.IntegerField(blank=False, null=False, verbose_name='Radius [m]')
     longitude = models.FloatField(blank=False, null=False)
     latitude = models.FloatField(blank=False, null=False)
 

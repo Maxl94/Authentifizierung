@@ -11,7 +11,7 @@ from utilities.hw.nfc import NfcReader
 def nfc_callback(status, id):
     global ACTIVE_MODE, CONTROLLER
 
-    if ACTIVE_MODE = 1:
+    if ACTIVE_MODE == 1:
         ACTIVE_MODE = 3
     else:
         ACTIVE_MODE = 1

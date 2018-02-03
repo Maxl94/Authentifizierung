@@ -91,15 +91,12 @@ class Control(Thread):
     # ----- gps methods -----
     # write gps data to django database on regular bases
     def update_gps_data(self):
-        print("updating gps data")
-        self.old_gps_array = self.gps_array[:]
-        self.gps_array = [self.gps.get_data().lat, self.gps.get_data().long]
-
-        # TODO fix in gps module
         _lat = self.gps.get_data().lat
         _long = self.gps.get_data().lat
         #print('DEBUG: GPS {0}:{1}'.format(self.gps.get_data().lat, self.gps.get_data().long))
-        if _lat.replace(' ', '') != '' and _long.replace(' ', ''):
+        if _lat and _long:
+            self.old_gps_array = self.gps_array[:]
+            self.gps_array = [_lat, _long]
             self.dummy_safe_zone.latitude = _lat
             self.dummy_safe_zone.longitude = _long
 

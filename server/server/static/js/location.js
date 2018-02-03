@@ -4,17 +4,28 @@ var error = document.getElementById("error");
 
 function getLocation() {
     console.log("Searching location")
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        console.log("... failed")
-        error.innerHTML = "Geolocation is not supported by this browser.";
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/api/location", true);
+    xhr.onload = function (e) {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            console.log(xhr.responseText);
+            position = JSON.parse(xhr.responseText)
+            showPosition(position)
+        } else {
+            console.error(xhr.statusText);
+        }
     }
+    };
+    xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+    };
+    xhr.send(null);
 }
 
 function showPosition(position) {
-    console.log("Latitude: " + position.coords.latitude + 
-                    "Longitude: " + position.coords.longitude);
-    longitude.value = position.coords.longitude
-    latitude.value = position.coords.latitude
+    console.log("Latitude: " + position.latitude + 
+                "Longitude: " + position.longitude);
+    longitude.value = position.longitude
+    latitude.value = position.latitude
 }

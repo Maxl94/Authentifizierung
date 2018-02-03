@@ -14,8 +14,6 @@ class Control(Thread):
         print("started init")
         super().__init__()
         if db_is_ready:
-
-
             self.sensor_timeout = 0.01  # in seconds
             self.ir_threshold = 20
 
@@ -78,12 +76,10 @@ class Control(Thread):
     def start_sensors(self):
         print("starting sensors")
         self.gps.start()
-        self.gyro.start(
+        self.gyro.start()
         ir_modul.initIRPack()
         self.motion.start()
 
-    # ----- alarm methods -----
-    # methods to start and stop an alarm sound
     def start_alarm(self):
         print("requesting alarm")
         self.alarm.start_alarm(self.config.alarm_duration)

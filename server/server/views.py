@@ -9,7 +9,7 @@ from .wsgi import CONTROLLER, ACTIVE_MODE
 from .utilities.hw.nfc import NfcReader
 
 def nfc_callback(status, id):
-    if status = 1:
+    if status == 1:
         global ACTIVE_MODE, CONTROLLER
 
         if ACTIVE_MODE == 1:

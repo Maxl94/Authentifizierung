@@ -1,6 +1,12 @@
 from threading import Thread
 import time
-
+from .alarm import Alarm
+from .hw import bno
+from .hw import ldr_modul
+from .hw import ir_modul
+from .hw import motion_det
+from .hw import gps_modul
+from geopy.distance import vincenty
 
 class Control(Thread):
     # TODO: rename dummy_safe_zone to a more fitting name (i.e. something with list)
@@ -8,13 +14,7 @@ class Control(Thread):
         print("started init")
         super().__init__()
         if db_is_ready:
-            from .alarm import Alarm
-            from .hw import bno
-            from .hw import ldr_modul
-            from .hw import ir_modul
-            from .hw import motion_det
-            from .hw import gps_modul
-            from geopy.distance import vincenty
+
 
             self.sensor_timeout = 0.01  # in seconds
             self.ir_threshold = 20

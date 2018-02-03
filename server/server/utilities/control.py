@@ -15,6 +15,7 @@ class Control(Thread):
             from .hw import motion_det
             from .hw import gps_modul
             from geopy.distance import vincenty
+
             self.sensor_timeout = 0.01  # in seconds
             self.ir_threshold = 20
 
@@ -78,7 +79,7 @@ class Control(Thread):
         print("starting sensors")
         self.gps.start()
         self.gyro.start()
-        ir_modul.initIRPack()
+        self.ir_modul.initIRPack()
         self.motion.start()
 
     # ----- alarm methods -----

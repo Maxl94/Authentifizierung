@@ -17,7 +17,7 @@ def location(request):
 
 @login_required
 def ir_stream(request):
-    return StreamingHttpResponse(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return StreamingHttpResponse(gen(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def gen():
     while True:

@@ -9,16 +9,17 @@ from .wsgi import CONTROLLER, ACTIVE_MODE
 from .utilities.hw.nfc import NfcReader
 
 def nfc_callback(status, id):
-    global ACTIVE_MODE, CONTROLLER
+    if status = 1:
+        global ACTIVE_MODE, CONTROLLER
 
-    if ACTIVE_MODE == 1:
-        ACTIVE_MODE = 3
-    else:
-        ACTIVE_MODE = 1
+        if ACTIVE_MODE == 1:
+            ACTIVE_MODE = 3
+        else:
+            ACTIVE_MODE = 1
 
-    obj = Profile.objects.get(id=ACTIVE_MODE)
-    CONTROLLER.update_config(obj)
-    print('Active mode = {0}'.format(ACTIVE_MODE))
+        obj = Profile.objects.get(id=ACTIVE_MODE)
+        CONTROLLER.update_config(obj)
+        print('Active mode = {0}'.format(ACTIVE_MODE))
 
 
 
@@ -96,9 +97,6 @@ class DeleteModeView(DeleteView):
 class SetModeView(View):
     def get(self, request, **kwargs):
         obj = Profile.objects.get(id=self.kwargs['id'])
-        # Rufe Michis Zeug auf
-        
-        print('Michis zeug aufrufen')
         global ACTIVE_MODE, CONTROLLER
         ACTIVE_MODE = obj.id
         CONTROLLER.update_config(obj)

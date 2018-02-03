@@ -95,14 +95,15 @@ class Control(Thread):
         _long = self.gps.get_data().lat
         #print('DEBUG: GPS {0}:{1}'.format(self.gps.get_data().lat, self.gps.get_data().long))
         if _lat and _long:
-            self.old_gps_array = self.gps_array[:]
-            self.gps_array = [_lat, _long]
-            self.dummy_safe_zone.latitude = _lat
-            self.dummy_safe_zone.longitude = _long
+            if self.old_gps_array[0] != _lat and self.old_gps_array[1] != _long:
+                self.old_gps_array = self.gps_array[:]
+                self.gps_array = [_lat, _long]
+                self.dummy_safe_zone.latitude = _lat
+                self.dummy_safe_zone.longitude = _long
 
-            # FIXME untested: should override db object from django
-            self.dummy_safe_zone.save()
-            print('GPS data saved')
+                # FIXME untested: should override db object from django
+                self.dummy_safe_zone.save()
+                print('GPS data saved')
 
     def check_gps_diff(self):
         gps_diff = vincenty(self.old_gps_array, self.gps_array).meters

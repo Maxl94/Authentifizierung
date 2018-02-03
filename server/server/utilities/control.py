@@ -24,6 +24,7 @@ class Control(Thread):
         self.config = config
         self.dummy_safe_zone = dummy_safe_zone
 
+        # init sensors
         self.alarm = Alarm()
         self.gyro = bno.Gyro()
         self.ir = ir_modul.IrI2c()
@@ -35,14 +36,14 @@ class Control(Thread):
 
         self.start_sensors()
         self.start()
-        print("finished init"   )
+        print("finished init")
 
     def run(self):
         print("Control Thread started")
         self.check_sensors()
 
     # ----- general methods -----
-    # method looks for active sensors and if the want to request an alarm
+    # method looks for active sensors and if they want to request an alarm
     def check_sensors(self):
         while True:
             # print("checking active sensors")
@@ -66,7 +67,7 @@ class Control(Thread):
 
             time.sleep(self.sensor_timeout)
 
-    # method to update config, config includes all active sensors and utility
+    # method to update config, config includes all active sensors and utilities
     def update_config(self, config):
         print("updating config")
         self.config = config

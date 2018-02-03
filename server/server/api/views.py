@@ -8,7 +8,7 @@ from server.models import Safezone
 def location(request):
     safe_zone = Safezone.objects.get(id=1)
     res = {
-        'lat': safe_zone.latitude,
-        'long': safe_zone.longitude,
+        'latitude': safe_zone.latitude,
+        'longitude': safe_zone.longitude,
     }
     return JsonResponse(res)

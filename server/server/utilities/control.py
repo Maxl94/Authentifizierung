@@ -79,7 +79,7 @@ class Control(Thread):
         print("starting sensors")
         self.gps.start()
         self.gyro.start(
-        self.ir.initIRPack()
+        ir_modul.initIRPack()
         self.motion.start()
 
     # ----- alarm methods -----

@@ -19,7 +19,7 @@
                 <h2 class="mdl-card__title-text mdl-card--border">Create new profil</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-card--border">
-                <button onclick="getLocation()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                <button onclick="getLocation()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"></button>
                     <i class="material-icons">location_searching</i> Current location
                 </button>
                 <p id="error"></p>
@@ -40,9 +40,11 @@
     var error = document.getElementById("error")
     
     function getLocation() {
+        console.log("Searching location")
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else { 
+            console.log("... failed")
             error.innerHTML = "Geolocation is not supported by this browser.";
         }
     }

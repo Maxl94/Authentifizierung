@@ -106,7 +106,7 @@ class LocationsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['locations'] = Safezone.objects.filter(id__gte=2)
+        context['locations'] = Safezone.objects.all()
         print(context['locations'])
         return context
 

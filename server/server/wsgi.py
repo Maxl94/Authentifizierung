@@ -15,7 +15,8 @@ from .models import Profile
 
 ACTIVE_MODE = 1
 setting = Profile.objects.get(id=ACTIVE_MODE)
-CONTROLLER = Control(setting)
+safe_zones = []
+CONTROLLER = Control(setting, safe_zones, db_is_ready=True)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
 

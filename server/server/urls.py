@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from .views import *
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', LoginView.as_view()),    
+    url(r'^$', LoginView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'api/', include('server.api.urls')),
     url(r'^home/$', HomeView.as_view()),
@@ -34,5 +35,7 @@ urlpatterns = [
     url(r'locations/create/$', LocationCreateView.as_view()),
     url(r'locations/update/(?P<id>\d+)/$', LocationUpdateView.as_view()),
     url(r'locations/delete/(?P<id>\d+)/$', LocationDeleteView.as_view()),
+    url(r'^.*$', RedirectView.as_view(url='/', permanent=False))
+
 ]
 

@@ -14,7 +14,7 @@
 {% block pageContent %}
 <div class="mdl-grid"></div>
     <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
-        <form action="/alarm_off" method="GET">
+        <form action="/alarm_off/" method="GET">
             <input type="submit" class="mdl-button mdl-js-button mdl-button--raised btn-full-width" value="Switch alarm off"/>
         </form>
     </div>
@@ -34,7 +34,7 @@
             <div class="mdl-card__actions mdl-card--border">
                 {% for item in modes %}
                 <p>
-                    <form action="/set_mode/{{ item.id }}" method="GET">
+                    <form action="/set_mode/{{ item.id }}/" method="GET">
                         {% if item.id == active_mode %}
                             <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent btn-full-width" value="{{ item.name }}"/>                        
                         {% else %}

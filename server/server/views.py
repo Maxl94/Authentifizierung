@@ -48,7 +48,7 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/home')
+            return redirect('/home/')
         else:
             context = {
                 'error':'Pin is not correct',
@@ -68,14 +68,14 @@ class SettingsView(TemplateView):
 @method_decorator(login_required, name='dispatch')
 class CreateModeView(CreateView):
     model = Profile
-    success_url = '/settings'
+    success_url = '/settings/'
     template_name = 'create_mode.html'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class UpdateModeView(UpdateView):
     model = Profile
-    success_url = '/settings'
+    success_url = '/settings/'
     template_name = 'update_mode.html'
     fields = '__all__'
     
@@ -86,7 +86,7 @@ class UpdateModeView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class DeleteModeView(DeleteView):
     model = Profile
-    success_url = '/settings'
+    success_url = '/settings/'
     template_name = 'delete_mode.html'
 
     def get_object(self, queryset=None):
@@ -101,7 +101,7 @@ class SetModeView(View):
         ACTIVE_MODE = obj.id
         CONTROLLER.update_config(obj)
         print('Active mode = {0}'.format(ACTIVE_MODE))
-        return redirect('/home')
+        return redirect('/home/')
 
 @method_decorator(login_required, name='dispatch')
 class AlarmOffView(View):
@@ -109,7 +109,7 @@ class AlarmOffView(View):
         print('Alarm aus')
         global CONTROLLER
         CONTROLLER.stop_alarm()
-        return redirect('/home')
+        return redirect('/home/')
 
 @method_decorator(login_required, name='dispatch')
 class VideoView(TemplateView):
@@ -129,13 +129,13 @@ class LocationsView(TemplateView):
 class LocationCreateView(CreateView):
     template_name = 'locations_create.html'
     model = Safezone
-    success_url = '/locations'
+    success_url = '/locations/'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class LocationUpdateView(UpdateView):
     model = Safezone
-    success_url = '/locations'
+    success_url = '/locations/'
     template_name = 'locations_update.html'
     fields = '__all__'
     
@@ -146,7 +146,7 @@ class LocationUpdateView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class LocationDeleteView(DeleteView):
     model = Safezone
-    success_url = '/locations'
+    success_url = '/locations/'
     template_name = 'locations_delete.html'
     
     def get_object(self, queryset=None):

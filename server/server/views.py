@@ -8,6 +8,20 @@ from .models import Profile, Safezone
 from .wsgi import CONTROLLER, ACTIVE_MODE
 from .utilities.hw.nfc import NfcReader
 
+# NEW Controll LED
+import RPi.GPIO as GPIO
+LED_GPIO = 21
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED_GPIO, GPIO.OUT)
+
+def set_LED():
+    global ACTIVE_MODE
+    if ACTIVE_MODE == 1:
+        GPIO.output(LED_GPIO, GPIO.LOW)
+    else:
+        GPIO.output(LED_GPIO, GPIO.HIGH)
+
+
 def nfc_callback(status, id):
     if status == 1:
         global ACTIVE_MODE, CONTROLLER
@@ -17,10 +31,15 @@ def nfc_callback(status, id):
         else:
             ACTIVE_MODE = 1
 
+        # LED
+        set_LED()
+
+        # NEW: Stop alarm if profile changed
+        CONTROLLER.stop_alarm()
+
         obj = Profile.objects.get(id=ACTIVE_MODE)
         CONTROLLER.update_config(obj)
         print('Active mode = {0}'.format(ACTIVE_MODE))
-
 
 
 NFC_READER = NfcReader(nfc_callback)
@@ -48,7 +67,7 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/home/')
+            return redirect('/home')
         else:
             context = {
                 'error':'Pin is not correct',
@@ -68,14 +87,14 @@ class SettingsView(TemplateView):
 @method_decorator(login_required, name='dispatch')
 class CreateModeView(CreateView):
     model = Profile
-    success_url = '/settings/'
+    success_url = '/settings'
     template_name = 'create_mode.html'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class UpdateModeView(UpdateView):
     model = Profile
-    success_url = '/settings/'
+    success_url = '/settings'
     template_name = 'update_mode.html'
     fields = '__all__'
     
@@ -86,7 +105,7 @@ class UpdateModeView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class DeleteModeView(DeleteView):
     model = Profile
-    success_url = '/settings/'
+    success_url = '/settings'
     template_name = 'delete_mode.html'
 
     def get_object(self, queryset=None):
@@ -99,9 +118,16 @@ class SetModeView(View):
         obj = Profile.objects.get(id=self.kwargs['id'])
         global ACTIVE_MODE, CONTROLLER
         ACTIVE_MODE = obj.id
+
+        # NEW: Stop alarm if profile changed
+        CONTROLLER.stop_alarm()
+
         CONTROLLER.update_config(obj)
+        # LED
+        set_LED()
+
         print('Active mode = {0}'.format(ACTIVE_MODE))
-        return redirect('/home/')
+        return redirect('/home')
 
 @method_decorator(login_required, name='dispatch')
 class AlarmOffView(View):
@@ -109,7 +135,7 @@ class AlarmOffView(View):
         print('Alarm aus')
         global CONTROLLER
         CONTROLLER.stop_alarm()
-        return redirect('/home/')
+        return redirect('/home')
 
 @method_decorator(login_required, name='dispatch')
 class VideoView(TemplateView):
@@ -129,13 +155,13 @@ class LocationsView(TemplateView):
 class LocationCreateView(CreateView):
     template_name = 'locations_create.html'
     model = Safezone
-    success_url = '/locations/'
+    success_url = '/locations'
     fields = '__all__'
 
 @method_decorator(login_required, name='dispatch')
 class LocationUpdateView(UpdateView):
     model = Safezone
-    success_url = '/locations/'
+    success_url = '/locations'
     template_name = 'locations_update.html'
     fields = '__all__'
     
@@ -146,7 +172,7 @@ class LocationUpdateView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class LocationDeleteView(DeleteView):
     model = Safezone
-    success_url = '/locations/'
+    success_url = '/locations'
     template_name = 'locations_delete.html'
     
     def get_object(self, queryset=None):

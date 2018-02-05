@@ -50,7 +50,8 @@ class MotionDetection(threading.Thread):
                     self.fgmask = self.fgbg.apply(data, self.fgmask, learning_rate)
                     #cv2.imshow('Background removed', self.fgmask)
             #if k == 27:
-            #    break
+               # break
+            sleep(0.050)
 
     def close(self):
         self.out.release()
@@ -60,7 +61,7 @@ class MotionDetection(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.fgbg = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=4, detectShadows=False)
+        self.fgbg = cv2.createBackgroundSubtractorMOG2(history=400, varThreshold=4, detectShadows=False)
         #self.fourcc = cv2.VideoWriter_fourcc(*'VP80')
         #self.videofile = 'server/static/test.avi'
         #print("Video erzeugt in: " + os.getcwd() + "/" + self.videofile)

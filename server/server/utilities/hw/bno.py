@@ -30,7 +30,7 @@ class Gyro(threading.Thread):
         while True:
             # Read the linear acceleration (without gravity)
             x, y, z = bno.read_linear_acceleration()
-            if abs(x) > 0.3 or abs(y) > 0.3 or abs(z) > 0.3:
+            if abs(x) > 0.7 or abs(y) > 0.7 or abs(z) > 0.7:
                 print('x={0:07.2F} y={1:07.2F} z={2:07.2F}'.format(x, y, z))
                 self.mutex.acquire(blocking=True, timeout=-1)
                 self.moved = True
